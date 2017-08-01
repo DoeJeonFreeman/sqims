@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.nims.ccm.qms.mybatis_L2.TimeSeriesDataMapper_L2">
+	
+	
+			<!-- 
+			WHERE ImgRef like '${targetDate}%'  	 
+			&lt; <
+			&gt; >
+					WHERE IMGREFDT BETWEEN TO_DATE('2013-08-03', 'YYYY-MM-DD') AND TO_DATE('2013-08-09', 'YYYY-MM-DD')
+			 -->
+		
+	<!--1. CLA -->
+	<!-- CLA -->
+	<!-- CLA -->
+	<!-- CLA -->
+	<!-- CLA -->
+	<!-- CLA -->
+	<!-- CLA -->
+	<!-- CLA -->
+ 	<select id="selectTimeSeriesData_L2_CLA" parameterType="hashmap" resultType="hashmap">
+	    select to_char(INIT_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, R, BIAS, RMSE, VAM_NUM 
+	    	FROM CA_VS_GTS
+			WHERE INIT_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		    		AND INIT_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
+			ORDER BY DSTR
+ 	</select>
+
+	
+	<!--2. CLD -->
+	<!-- CLD -->
+	<!-- CLD -->
+	<!-- CLD -->
+	<!-- CLD -->
+	<!-- CLD -->
+ 	<select id="selectTimeSeriesData_L2_CLD" parameterType="hashmap" resultType="hashmap">
+	    select to_char(END_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, VAM_NUM, HIT, FALSE_ALARM, MISS, COR_NEG, 
+	    	PC, POD, FAR, PSS, HSS 
+	    	FROM CLD_MOD35
+			WHERE END_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+    		AND END_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
+			ORDER BY DSTR
+ 	</select>
+ 	
+	
+	<!--3. FOG -->
+	<!-- FOG -->
+	<!-- FOG -->
+	<!-- FOG -->
+	<!-- FOG -->
+ 	<select id="selectTimeSeriesData_L2_FOG" parameterType="hashmap" resultType="hashmap">
+	    select to_char(INIT_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, HIT, FALSE_ALARM, VAM_NUM, COR_NEG
+	    	FROM FOG_VS_GTS
+			WHERE INIT_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		    		AND INIT_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
+			ORDER BY DSTR
+ 	</select>
+
+
+	<!--4. AI -->
+	<!-- AI -->
+	<!-- AI -->
+	<!-- AI -->
+	<!-- AI -->
+	<!-- AI -->
+ 	<select id="selectTimeSeriesData_L2_AI" parameterType="hashmap" resultType="hashmap">
+	    select to_char(INIT_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, VAM_NUM, MISS, COR_NEG, PC, BIAS, POD
+	    	FROM AI_VS_OMI
+			WHERE INIT_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		    		AND INIT_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
+			ORDER BY DSTR
+ 	</select>
+
+
+
+	
+
+</mapper>

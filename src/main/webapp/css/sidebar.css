@@ -1,0 +1,187 @@
+@CHARSET "UTF-8";
+
+
+		/*disabling webkit-focus-ring-color*/
+		
+		/* textarea, input, button { outline: none; } 
+		-webkit-focus-ring-color: rgba(0,0,0,0);
+		 */
+		:focus {
+		    outline-color: transparent;
+		    outline-style: none;
+		  }
+
+		/* Toggle Styles */
+		 
+		 #wrapper {
+		    padding-left: 0;
+		    -webkit-transition: all 0.5s ease;
+		    -moz-transition: all 0.5s ease;
+		    -o-transition: all 0.5s ease;
+		    transition: all 0.5s ease;
+		    overflow: hidden;
+		}
+		 
+		#wrapper.toggled {
+		    padding-left: 260px;
+		    overflow: scroll;
+		}
+		 
+		#sidebar-wrapper {
+		    z-index: 555;
+		    position: absolute; 
+		    left: 350px;
+		    width: 20px;
+		    height: 100%;
+		    margin-left: -350px;
+		    overflow-y: auto;
+		    background: #E0E0E0; /*doejeon*/
+		    -webkit-transition: all 0.5s ease;
+		    -moz-transition: all 0.5s ease;
+		    -o-transition: all 0.5s ease;
+		    transition: all 0.5s ease;
+		}
+		#wrapper.toggled #sidebar-wrapper {
+		    width: 350px;
+		}
+		
+		
+		  	 #wrapper #sidebar-wrapper:hover {
+		        width: 350px;
+		    } 
+		 
+		#page-content-wrapper {
+		    position: absolute;
+		    padding: 15px;
+		    width: 100%;  
+		    overflow-x: hidden; 
+		}
+		.xyz{
+		    min-width: 360px;
+		}
+		#wrapper.toggled #page-content-wrapper {
+		    position: relative;
+		    margin-right: 0px; 
+		}
+		.fixed-brand{
+		    width: auto;
+		}
+		/* Sidebar Styles */
+		 
+		.sidebar-nav {
+		    position: absolute;
+		    top: 0;
+		    width: 350px; /*doejeon*/
+		    margin: 0;
+		    padding: 0;
+		    list-style: none;
+		    margin-top: 2px;
+		}
+		 
+		.sidebar-nav li {
+		    text-indent: 15px;
+		    line-height: 35px; /*doejeon 20하면 깨지네 */
+		}
+		
+		.sidebar-nav li .checkbox{
+		    line-height: 20px;
+		}
+		 
+		.sidebar-nav li a {
+		    display: block;
+		    text-decoration: none;
+		    color: #777777; /*doejeon*/
+		}
+		 
+		.sidebar-nav li a:hover {
+		    text-decoration: none;
+/* 		    color: #fff; */
+		    color: #eb8f00;
+		    background: rgba(255,255,255,0.2);
+		    border-left: #eb8f00 2px solid;
+		}
+		 
+		.sidebar-nav li a:active,
+		.sidebar-nav li a:focus {
+		    text-decoration: none;
+		}
+		 
+		.sidebar-nav > .sidebar-brand {
+		    font-size: 18px;
+		    /*  height: 65px; */ 
+		     line-height: 38px; 
+		}
+		 
+		.sidebar-nav > .sidebar-brand a {
+		    color: #999999;
+		    font-size: 13px;
+		    cursor: default;
+		 /*     border-bottom: 1px solid #cccccc; */
+		     /* left: 0; */
+		/* 	  width: 100px;  */
+		}
+		 
+		.sidebar-nav > .sidebar-brand a:hover {
+		    color: #999999;
+		    background: none;
+		}
+		.no-margin{
+		    margin:0;
+		}
+		 
+		@media(min-width:768px) { /*over 768px*/
+		    #wrapper {
+		        padding-left: 350px;
+		    }
+		    .fixed-brand{
+		        width: 350px;
+		    }
+		    #wrapper.toggled {
+		        padding-left: 0;
+		    }
+		 
+		    #sidebar-wrapper {
+		        width: 350px;
+		    }
+		 
+		    #wrapper.toggled #sidebar-wrapper {
+		        width: 350px;
+		    }
+		    /** 50 --> 45*/ /*doejeon*/
+		    #wrapper.toggled-2 #sidebar-wrapper {
+		        width: 10px;
+		    }
+		    #wrapper.toggled-2 #sidebar-wrapper:hover {
+		        width: 350px;
+		    }
+		 
+		 
+		    #page-content-wrapper {
+		        padding: 20px;
+		        position: relative;
+		        -webkit-transition: all 0.5s ease;
+		        -moz-transition: all 0.5s ease;
+		        -o-transition: all 0.5s ease;
+		        transition: all 0.5s ease;
+		    }
+		 
+		    #wrapper.toggled #page-content-wrapper {
+		        position: relative;
+		        margin-right: 0;
+		        padding-left: 350px;
+		    }
+		    #wrapper.toggled-2 #page-content-wrapper {
+		        position: relative;
+		        margin-right: 0;
+		        margin-left: -350px;
+		        /* 
+		        -webkit-transition: all 0.5s ease;
+		        -moz-transition: all 0.5s ease;
+		        -o-transition: all 0.5s ease;
+		        transition: all 0.5s ease;
+		         */
+		        width: auto;
+		 
+		    }
+		}
+		

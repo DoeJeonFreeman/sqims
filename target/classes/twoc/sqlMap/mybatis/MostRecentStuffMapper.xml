@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.2//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.nims.ccm.qms.mybatis.MostRecentStuffMapper">
+
+<!--     
+ -->
+	<resultMap type="kr.go.nims.ccm.qms.domain.MostRecentStuffVO" id="up2dateObj">
+        <result property="lateststuff" column="lateststuff" />
+    </resultMap>
+
+  <select id="seekLatestStuff" parameterType="string" resultMap="up2dateObj">
+  	SELECT 
+  		DATE_FORMAT(max(OBS_DATE) ,'%Y-%m-%d %H:%i:%s') as lateststuff
+		FROM NEPHELO
+  </select>
+  
+  <select id="seekLatestStuff_DEPRECATED" parameterType="string" resultMap="up2dateObj">
+  	SELECT 
+  		TO_CHAR(max(IMGREFDT) keep (dense_rank last order by IMGREFDT),'YYYY-MM-DD HH24:MI:SS') as lateststuff
+		FROM CPP_RADIODETPARAM_V
+		WHERE  Detector=1 and Channel=1 and Name='SNR'
+ 		AND PID=1 and INSTRUMENTMODE='LA'
+  </select>
+  
+
+  <select id="seekLatestOne" parameterType="string" resultMap="up2dateObj">
+  	SELECT 
+  		TO_CHAR(max(IMGREFDT) keep (dense_rank last order by IMGREFDT),'YYYY-MM-DD HH24:MI:SS') as lateststuff 
+	FROM CPP_NAVPERFO_V
+	WHERE IMGMODEID=4 AND PID=1
+  </select>
+  
+</mapper>
