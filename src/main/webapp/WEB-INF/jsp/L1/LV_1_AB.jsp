@@ -893,16 +893,39 @@ sysout(varSelected);
 			      label: '상태 변경',
 			      items: {
 			        size1: {
-			          label: '정상',
-			          type: 'radio'
+			          label: '양호',
+			          //type: 'radio'
 			        },
 			        size2: {
 			          label: '의심',
-			          type: 'radio'
+			          
+			          items: {
+				        	size21: {
+					          	label: '장비상태 불안',
+					          	items: {
+						        	size211: {
+							          	label: 'Zero/span 체크 (682)',
+								        type: 'radio'
+						        	},
+						        	size212: {
+							          	label: '검교정 시기 (683)',
+								        type: 'radio'
+						        	},
+						        	size213: {
+							          	label: '장비 문제 발생 (699)',
+								        type: 'radio'
+						        	},
+					        	}
+				            },
+				            size22: {
+				            	label:'관측환경 및 기상상황 불안'
+				            }
+			          }
+			        
 			        },
 			        size3: {
-			          label: '오류',
-			          type: 'radio'
+			          label: '결측',
+			          //type: 'radio'
 			        }
 			      }
 			    }

@@ -615,6 +615,203 @@
 		};
 		
 		
+		// weekly Level 1 Nephelometer 
+		// weekly Level 1 Nephelometer 
+		// weekly Level 1 Nephelometer 
+		var options_multipleSeries_LV1_weekly = {
+				chart : {
+					type : 'line',
+//					renderTo : chartId,  								
+					defaultSeriesType : 'line',  //this is a 'fake' scatter plot						
+					animation: false,
+					events:{
+//					            selection: selectPointsByDrag,
+						selection: function(e){
+							
+							if(!isStillPressedDown){
+								return true;  //do zoom instead of selecting points haha
+							}
+							
+							var menuItemArray = this.options.exporting.buttons.contextButton.menuItems;
+							if(menuItemArray.length < 8){
+								this.options.exporting.buttons.contextButton.menuItems.push({
+									text: "Change Flag",
+//								            onclick: HelloFxxkingWorld
+									onclick: function(event){
+										var str = "";
+										if(this.getSelectedPoints().length > 0){
+//													alert(this.getSelectedPoints().length + ' points are affected')
+											str += this.getSelectedPoints().length + ' points affected.\n\n';
+										}
+										
+										$.each(this.getSelectedPoints(), function (i, value) {
+											str += '['+ Highcharts.dateFormat('%Y-%m-%d %H:%M:%S',value.x) + '] pid:'+value.pid + ' / FGA:' + value.FgA +'\n';
+//								                	sysout('[value.x]'+ Highcharts.dateFormat('%Y-%m-%d %H:%M:%S',value.x))
+//								                	sysout('[value.y]'+ value.y)
+										});
+										alert(str);
+									}
+								});
+							}
+							
+							// Select points
+							Highcharts.each(this.series, function (series) {
+								Highcharts.each(series.points, function (point) {
+									if (point.x >= e.xAxis[0].min && point.x <= e.xAxis[0].max &&
+											point.y >= e.yAxis[0].min && point.y <= e.yAxis[0].max) {
+										point.select(true, true);
+									}
+								});
+							});
+							
+							// Fire a custom event
+							//Highcharts.fireEvent(this, 'selectedpoints', { points: this.getSelectedPoints() });
+							
+							// Fire djf custom event
+							toastr.info('<b>' + this.getSelectedPoints().length + ' points selected.</b>');
+							
+							return false; // Don't zoom
+						},
+						/*selection: function(event) {
+									// log the min and max of the primary, datetime x-axis
+									console.log(
+										Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', event.xAxis[0].min),
+										Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', event.xAxis[0].max)
+									);
+									// log the min and max of the y axis
+									console.log(event.yAxis[0].min, event.yAxis[0].max);
+								},*/
+						selectedpoints: selectedPoints,
+//					            click: unselectByClick
+						click : function(e){
+							var points = this.getSelectedPoints();
+							if (points.length > 0) {
+								Highcharts.each(points, function (point) {
+									point.select(false);
+								});
+							}
+//					    		    var menuItemArray = this.options.exporting.buttons.contextButton.menuItems;
+//									if(menuItemArray.length > 7){
+//										menuItemArray = menuItemArray.slice(0,7)
+//										alert(menuItemArray.length)
+//									}
+						}
+					},
+					plotBorderWidth : 1,
+					plotBorderColor : '#346691', // '#346691',
+					zoomType : 'xy',
+				},
+				plotOptions: {
+					line: {
+						lineWidth: 0, //make the lines disappear
+						marker : {
+							enabled : true,
+							radius : 1,
+							symbol:'square' // "circle", "square", "diamond", "triangle" and "triangle-down".
+//							,states : {
+//								hover : {
+//									enabled : true,
+//								}
+//							}
+						},
+//						allowPointSelect: true,
+						/*	 
+					      events: {
+					         // Default action for (left) clicking the data
+					         click: function(point) {
+					        	 alert('some action for clicking the point haha');
+					         },
+					         // (Right-click) Create a menu for the data point
+					         contextmenu: function(point) {
+					        	 //...??
+					         },
+					      }*/
+					},
+					
+					series: {
+						point: {
+							events: {
+								mouseOver: function () {
+//									syncTooltip(this.series.chart.container, this.x); // 
+									syncTooltip_LV1B_QI(this.series.chart.container, this.x, this.series.index);
+								}
+							}
+						}
+					,states: {
+						hover: {
+							enabled: false,
+							lineWidthPlus:0
+						}
+					}
+					,animation: false
+//					    ,events: {
+//			                renderedCanvas: function () {
+//			                    console.timeEnd('asyncRender');
+//			                }
+//			            }
+					},
+//					
+				},
+				
+				exporting: {
+					chartOptions: { // specific options for the exported image
+						plotOptions: {
+							series: {
+								dataLabels: {
+									enabled: false// canDropLabels==true
+								}
+							}
+						}
+					},
+					scale: 3,
+					fallbackToExportServer: false
+				},
+				
+				credits: {
+					enabled: false
+				},
+				
+				tooltip : {
+					headerFormat: '{point.x:%e. %b %H:%M:%S} <br>',
+					pointFormat : '{point.y:,.5f} [FgA]{point.FgA}',
+//					valueSuffix: 'unit',
+					shared: true, //make the tooltip accessible across all series
+					crosshairs:true,
+//					formatter: function() {
+//						return 'Extra data: <b>' + this.point.pid + '</b>';
+//					}
+				},
+				
+				legend: {
+					layout: 'horizontal',
+					y: 0,
+					borderColor: '#aaa', //grayBlue
+					borderWidth: 1,
+					itemStyle: {
+						fontWeight:'normal'
+					}
+				}, 
+				xAxis : {
+					type : 'datetime',
+					tickColor: '#346691',
+					labels : {
+						formatter : function() {
+							var myDate = new Date(this.value);
+							var newDateMs = Date.UTC(myDate.getUTCFullYear(), myDate.getUTCMonth(), myDate.getUTCDate(), myDate.getUTCHours(), myDate.getUTCMinutes(), myDate.getUTCSeconds());
+							return Highcharts.dateFormat("%e. %b %H:%M",newDateMs);
+						}
+					},
+					//remove leading n trailling padding?space from the series of the timeseries chart haha
+					startOnTick: true,
+					endOnTick: false,				
+					minPadding:0,
+					maxPadding:0,
+					lineColor : '#346691',
+					lineWidth : 1,
+				}
+		};
+		
+		
 		// 'fake' scatter plot for multiple series haha 
 		var options_multipleSeries = {
 				chart : {
@@ -2172,7 +2369,165 @@
 					
 					///////////////////////////////////////////////////////////////////////////////////////////////////////
 					chartingPeriod = chartingPeriod.toUpperCase();
-					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries_LV1 : options_multipleSeries_scatter; 
+					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries_LV1 : options_multipleSeries_LV1_weekly; 
+//					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries_scatter : options_multipleSeries_scatter; 
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+					
+					
+					//chart goes here
+					var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
+						chart : {
+//							type : 'scatter',
+							renderTo : chartId,  								
+//							defaultSeriesType : 'line',
+//							animation: false,
+//							plotBorderWidth : 1,
+//							plotBorderColor : '#346691', // '#346691',
+//							zoomType : 'xy',
+						},
+						title: {
+							useHTML : true,
+							text: 'LEVEL 1 Nephelometer',
+							align: 'center',
+							style:{
+								font:'bold 16px NanumGothic'
+							}
+						},
+						subtitle: {
+//							text: '(nonoDetector ' + ENVTypeCode + ')',
+							text: ' ',
+							align: 'center',
+							style:{
+								font:'normal 13px NanumGothic'
+							}
+						},
+						yAxis: {
+							//get rid of horizontal grid lines haha
+							//gridLineWidth: 0,
+							tickColor: '#346691',
+							tickLength: 5,
+							tickWidth: 1,
+							tickPosition: 'inside',
+							labels: {
+								align: 'right',
+								x:-10,
+								y:5
+							},
+							lineWidth:0,
+							// max:3,
+							// min: -3,
+							title: {
+								text: 'value',
+								style : {
+									font:'normal 12px NanumGothic'
+								}	
+							},
+							labels:{
+								style : {
+									font:'normal 11px NanumGothic'
+								},
+								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+									return Highcharts.numberFormat(this.value, 1, '.', ',');
+								}
+							}	
+						}
+						/*	,series: [
+						          {name:'series',
+						        	  color:'#7cb5ec',
+						        	  connectNulls:false, data: []}
+						          ]*/
+					})); //haha
+					
+					//chart goes here
+					
+					$.each (Object.keys(jsonData), function(idx,val){
+						eachData = [];  //find
+						eachData_suspicious = [];  //suspicious 
+						eachData_error = [];  //error
+						var vrDataObj = jsonData[val];
+						sysout(">>> " + vrDataObj.length + " rows");
+						for (var i = 0; i < vrDataObj.length; i++) {
+							var d = /^(\d{4})\-(\d{2})\-(\d{2}) (\d{2}):(\d{2}):(\d{2}).(\d{6})$/.exec(vrDataObj[i].DSTR);
+							d = Date.UTC(d[1],d[2]*1-1,d[3],d[4],d[5],d[6]);
+//							var colour = (vrDataObj[i].FgA.indexOf('1') > -1)? ((vrDataObj[i].FgA.indexOf('2') > -1)? '#dc143c' : '#fd7a16') : '#3e93ef'  //오류 의심 정상
+//							eachData.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum, color:colour});
+							if(vrDataObj[i].FgA.indexOf('2') > -1){ //error 있는 필드
+								eachData_error.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum});
+							}else {
+								if(vrDataObj[i].FgA.indexOf('1') > -1){
+									eachData_suspicious.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum});
+								}else{
+									eachData.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum});
+								}
+							}
+//							eachData.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum});
+						}
+						
+//						_chartInstance.series[idx*1].setData(eachData); 
+						
+//						 '#dc143c' : '#fd7a16') : '#3e93ef'  //오류 의심 정상
+						_chartInstance.addSeries({
+							userHTML:true,
+							name: whichVar + ' 양호',
+							data: eachData,
+							color : '#3e93ef'
+							,turboThreshold:0 //series item이 array가 아니고 object일 경우 디폴트 값인 1000 넘으면 시리즈 드로잉 안함. 0이 disable 
+						}); 
+//						if(eachData_suspicious.length != 0 ){
+							_chartInstance.addSeries({
+								userHTML:true,
+								name: whichVar + ' 의심',
+								data: eachData_suspicious,
+								color : '#fd7a16'
+								,turboThreshold:0 
+							}); 
+//						}
+//						if(eachData_error.length != 0 ){
+							_chartInstance.addSeries({
+								userHTML:true,
+								name: whichVar + ' 결측',
+								data: eachData_error,
+								color : '#dc143c'
+								,turboThreshold:0 
+							}); 
+//						}		
+					});
+					
+//					var title = getLevel1A_ENV_Title(ENVTypeCode);
+					var title = whichVar;
+					_chartInstance.setTitle({text: title});
+//					_chartInstance.series[0].update({name:"name u want to change"}, false);
+					/*if(whichVar=='CH4' || whichVar=='H2O')
+					_chartInstance.yAxis[0].axisTitle.attr({
+				        text: 'value'
+				    });*/
+					
+					map.put(chartId, _chartInstance);
+					systime('addChart_L1_NEPHELO()', 'end');
+				},
+				cache: false,
+				
+			});	
+		}
+		
+		function addChart_NEPHELO_singleSeries(url,dStr, dBegin, tabIndex,whichVar,chartId,chartingPeriod){
+			systime('addChart_L1_NEPHELO()', 'begin');
+			sysout("WHICH_VAR:: " + whichVar)
+			$.ajax({
+				type: 'GET',
+				dataType:'json',
+				url: url,
+				data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&whichVar='+ whichVar,
+				success: function(jsonData) {
+					if(jsonData.length==0){
+						$('#'+chartId).append("<span class='clear'>No data available.</span>");
+//						$('#'+chartId).append("<div class='loader' data-initialize='loader' data-frame='7' id='myFxxkingLoader'></div>");
+						return;
+					}
+					
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+					chartingPeriod = chartingPeriod.toUpperCase();
+					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries_LV1 : options_multipleSeries_LV1_weekly; 
 //					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries_scatter : options_multipleSeries_scatter; 
 					///////////////////////////////////////////////////////////////////////////////////////////////////////
 					
@@ -2252,7 +2607,7 @@
 							d = Date.UTC(d[1],d[2]*1-1,d[3],d[4],d[5],d[6]);
 //							eachData.push([d,parseNumericVal(vrDataObj[i].VALUE)]); 
 							var colour = (vrDataObj[i].FgA.indexOf('1') > -1)? ((vrDataObj[i].FgA.indexOf('2') > -1)? '#dc143c' : '#fd7a16') : '#3e93ef'  
-							eachData.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum, color:colour});
+								eachData.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum, color:colour});
 							sysout('point id is :: ' + vrDataObj[i].snum + '  / Flag Code is :: ' + vrDataObj[i].FgA)
 						}
 						
@@ -2273,6 +2628,7 @@
 //					        }, {
 //					            color: '#90ed7d'
 //					        }]
+							,turboThreshold:0 //series item이 array가 아니고 object일 경우 디폴트 값인 1000 넘으면 시리즈 드로잉 안함. 0이 disable 
 						}); 
 						
 					});
