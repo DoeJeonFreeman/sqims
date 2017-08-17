@@ -7,6 +7,8 @@ public interface TimeSeriesDataDAO {
     
 	 public ArrayList<HashMap<String,Object>> selectCRDSData_L1(HashMap<String, String> hashmap);
 	 public ArrayList<HashMap<String,Object>> selectNEPHELOData_L1(HashMap<String, String> hashmap);
+	 public ArrayList<HashMap<String,Object>> selectOPCPMXData_L1(HashMap<String, String> hashmap);
+	 public ArrayList<HashMap<String,Object>> selectAPSMData_L1(HashMap<String, String> hashmap);
 	
 	 // 14
 	 public ArrayList<HashMap<String,Object>> selectTimeSeriesData_L1A_VSNR(HashMap<String, String> hashmap);

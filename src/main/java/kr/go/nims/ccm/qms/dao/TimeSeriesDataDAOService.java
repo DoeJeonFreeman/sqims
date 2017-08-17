@@ -35,6 +35,18 @@ public class TimeSeriesDataDAOService  implements TimeSeriesDataDAO{
 		TimeSeriesDataMapper dataMapper = sqlSession.getMapper(TimeSeriesDataMapper.class);
 		return dataMapper.selectNEPHELOData_L1(hashmap);
 	}
+	
+	@Override
+	public ArrayList<HashMap<String, Object>> selectOPCPMXData_L1(HashMap<String, String> hashmap) {
+		TimeSeriesDataMapper dataMapper = sqlSession.getMapper(TimeSeriesDataMapper.class);
+		return dataMapper.selectOPCPMXData_L1(hashmap);
+	}
+	
+	@Override
+	public ArrayList<HashMap<String, Object>> selectAPSMData_L1(HashMap<String, String> hashmap) {
+		TimeSeriesDataMapper dataMapper = sqlSession.getMapper(TimeSeriesDataMapper.class);
+		return dataMapper.selectAPSMData_L1(hashmap);
+	}
 
 	
 	

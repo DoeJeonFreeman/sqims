@@ -2470,7 +2470,7 @@
 							userHTML:true,
 							name: whichVar + ' 양호',
 							data: eachData,
-							color : '#3e93ef'
+							color : '#229954' //blue #3e93ef
 							,turboThreshold:0 //series item이 array가 아니고 object일 경우 디폴트 값인 1000 넘으면 시리즈 드로잉 안함. 0이 disable 
 						}); 
 //						if(eachData_suspicious.length != 0 ){
@@ -2485,7 +2485,7 @@
 //						if(eachData_error.length != 0 ){
 							_chartInstance.addSeries({
 								userHTML:true,
-								name: whichVar + ' 결측',
+								name: whichVar + ' 오류',
 								data: eachData_error,
 								color : '#dc143c'
 								,turboThreshold:0 
@@ -2504,6 +2504,317 @@
 					
 					map.put(chartId, _chartInstance);
 					systime('addChart_L1_NEPHELO()', 'end');
+				},
+				cache: false,
+				
+			});	
+		}
+		
+		
+		function addChart_OPC_PMX(url,dStr, dBegin, tabIndex,whichVar,chartId,chartingPeriod){
+			systime('addChart_L1_OPC_PMx()', 'begin');
+			sysout("WHICH_VAR:: " + whichVar)
+			$.ajax({
+				type: 'GET',
+				dataType:'json',
+				url: url,
+				data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&whichVar='+ whichVar,
+				success: function(jsonData) {
+					if(jsonData.length==0){
+						$('#'+chartId).append("<span class='clear'>No data available.</span>");
+//						$('#'+chartId).append("<div class='loader' data-initialize='loader' data-frame='7' id='myFxxkingLoader'></div>");
+						return;
+					}
+					
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+					chartingPeriod = chartingPeriod.toUpperCase();
+					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries_LV1 : options_multipleSeries_LV1_weekly; 
+//					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries_scatter : options_multipleSeries_scatter; 
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+					
+					
+					//chart goes here
+					var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
+						chart : {
+//							type : 'scatter',
+							renderTo : chartId,  								
+//							defaultSeriesType : 'line',
+//							animation: false,
+//							plotBorderWidth : 1,
+//							plotBorderColor : '#346691', // '#346691',
+//							zoomType : 'xy',
+						},
+						title: {
+							useHTML : true,
+							text: 'LEVEL 1 OPC PMX',
+							align: 'center',
+							style:{
+								font:'bold 16px NanumGothic'
+							}
+						},
+						subtitle: {
+//							text: '(nonoDetector ' + ENVTypeCode + ')',
+							text: ' ',
+							align: 'center',
+							style:{
+								font:'normal 13px NanumGothic'
+							}
+						},
+						yAxis: {
+							//get rid of horizontal grid lines haha
+							//gridLineWidth: 0,
+							tickColor: '#346691',
+							tickLength: 5,
+							tickWidth: 1,
+							tickPosition: 'inside',
+							labels: {
+								align: 'right',
+								x:-10,
+								y:5
+							},
+							lineWidth:0,
+							// max:3,
+							// min: -3,
+							title: {
+								text: 'value',
+								style : {
+									font:'normal 12px NanumGothic'
+								}	
+							},
+							labels:{
+								style : {
+									font:'normal 11px NanumGothic'
+								},
+								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+									return Highcharts.numberFormat(this.value, 1, '.', ',');
+								}
+							}	
+						}
+						/*	,series: [
+						          {name:'series',
+						        	  color:'#7cb5ec',
+						        	  connectNulls:false, data: []}
+						          ]*/
+					})); //haha
+					
+					//chart goes here
+					
+					$.each (Object.keys(jsonData), function(idx,val){
+						eachData = [];  //find
+						eachData_suspicious = [];  //suspicious 
+						eachData_error = [];  //error
+						var vrDataObj = jsonData[val];
+						sysout(">>> " + vrDataObj.length + " rows");
+						for (var i = 0; i < vrDataObj.length; i++) {
+							var d = /^(\d{4})\-(\d{2})\-(\d{2}) (\d{2}):(\d{2}):(\d{2}).(\d{6})$/.exec(vrDataObj[i].DSTR);
+							d = Date.UTC(d[1],d[2]*1-1,d[3],d[4],d[5],d[6]);
+//							var colour = (vrDataObj[i].FgA.indexOf('1') > -1)? ((vrDataObj[i].FgA.indexOf('2') > -1)? '#dc143c' : '#fd7a16') : '#3e93ef'  //오류 의심 정상
+//							eachData.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum, color:colour});
+							if(vrDataObj[i].FgA.indexOf('2') > -1){ //error 있는 필드
+								eachData_error.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum});
+							}else {
+								if(vrDataObj[i].FgA.indexOf('1') > -1){
+									eachData_suspicious.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum});
+								}else{
+									eachData.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum});
+								}
+							}
+//							eachData.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum});
+						}
+						
+//						_chartInstance.series[idx*1].setData(eachData); 
+						
+//						 '#dc143c' : '#fd7a16') : '#3e93ef'  //오류 의심 정상
+						_chartInstance.addSeries({
+							userHTML:true,
+							name: whichVar + ' 양호',
+							data: eachData,
+							color : '#229954' //blue #3e93ef
+								,turboThreshold:0 //series item이 array가 아니고 object일 경우 디폴트 값인 1000 넘으면 시리즈 드로잉 안함. 0이 disable 
+						}); 
+//						if(eachData_suspicious.length != 0 ){
+						_chartInstance.addSeries({
+							userHTML:true,
+							name: whichVar + ' 의심',
+							data: eachData_suspicious,
+							color : '#fd7a16'
+								,turboThreshold:0 
+						}); 
+//						}
+//						if(eachData_error.length != 0 ){
+						_chartInstance.addSeries({
+							userHTML:true,
+							name: whichVar + ' 오류',
+							data: eachData_error,
+							color : '#dc143c'
+								,turboThreshold:0 
+						}); 
+//						}		
+					});
+					
+//					var title = getLevel1A_ENV_Title(ENVTypeCode);
+					var title = whichVar;
+					_chartInstance.setTitle({text: title});
+//					_chartInstance.series[0].update({name:"name u want to change"}, false);
+					/*if(whichVar=='CH4' || whichVar=='H2O')
+					_chartInstance.yAxis[0].axisTitle.attr({
+				        text: 'value'
+				    });*/
+					
+					map.put(chartId, _chartInstance);
+					systime('addChart_L1_OPC_PMx()', 'end');
+				},
+				cache: false,
+				
+			});	
+		}
+		
+		function addChart_APS_M(url,dStr, dBegin, tabIndex,whichVar,chartId,chartingPeriod){
+			systime('addChart_L1_APS_M()', 'begin');
+			sysout("WHICH_VAR:: " + whichVar)
+			$.ajax({
+				type: 'GET',
+				dataType:'json',
+				url: url,
+				data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&whichVar='+ whichVar,
+				success: function(jsonData) {
+					if(jsonData.length==0){
+						$('#'+chartId).append("<span class='clear'>No data available.</span>");
+//						$('#'+chartId).append("<div class='loader' data-initialize='loader' data-frame='7' id='myFxxkingLoader'></div>");
+						return;
+					}
+					
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+					chartingPeriod = chartingPeriod.toUpperCase();
+					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries_LV1 : options_multipleSeries_LV1_weekly; 
+//					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries_scatter : options_multipleSeries_scatter; 
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+					
+					
+					//chart goes here
+					var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
+						chart : {
+//							type : 'scatter',
+							renderTo : chartId,  								
+//							defaultSeriesType : 'line',
+//							animation: false,
+//							plotBorderWidth : 1,
+//							plotBorderColor : '#346691', // '#346691',
+//							zoomType : 'xy',
+						},
+						title: {
+							useHTML : true,
+							text: 'LEVEL 1 APS M',
+							align: 'center',
+							style:{
+								font:'bold 16px NanumGothic'
+							}
+						},
+						subtitle: {
+//							text: '(nonoDetector ' + ENVTypeCode + ')',
+							text: ' ',
+							align: 'center',
+							style:{
+								font:'normal 13px NanumGothic'
+							}
+						},
+						yAxis: {
+							//get rid of horizontal grid lines haha
+							//gridLineWidth: 0,
+							tickColor: '#346691',
+							tickLength: 5,
+							tickWidth: 1,
+							tickPosition: 'inside',
+							labels: {
+								align: 'right',
+								x:-10,
+								y:5
+							},
+							lineWidth:0,
+							// max:3,
+							// min: -3,
+							title: {
+								text: 'value',
+								style : {
+									font:'normal 12px NanumGothic'
+								}	
+							},
+							labels:{
+								style : {
+									font:'normal 11px NanumGothic'
+								},
+								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+									return Highcharts.numberFormat(this.value, 1, '.', ',');
+								}
+							}	
+						}
+						/*	,series: [
+						          {name:'series',
+						        	  color:'#7cb5ec',
+						        	  connectNulls:false, data: []}
+						          ]*/
+					})); //haha
+					
+					//chart goes here
+					
+					$.each (Object.keys(jsonData), function(idx,val){
+						eachData = [];  //find
+						eachData_suspicious = [];  //suspicious 
+						eachData_error = [];  //error
+						var vrDataObj = jsonData[val];
+						sysout(">>> " + vrDataObj.length + " rows");
+						for (var i = 0; i < vrDataObj.length; i++) {
+							var d = /^(\d{4})\-(\d{2})\-(\d{2}) (\d{2}):(\d{2}):(\d{2}).(\d{6})$/.exec(vrDataObj[i].DSTR);
+							d = Date.UTC(d[1],d[2]*1-1,d[3],d[4],d[5],d[6]);
+//							var colour = (vrDataObj[i].FgA.indexOf('1') > -1)? ((vrDataObj[i].FgA.indexOf('2') > -1)? '#dc143c' : '#fd7a16') : '#3e93ef'  //오류 의심 정상
+//							eachData.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum, color:colour});
+							if(vrDataObj[i].FgA.indexOf('2') > -1){ //error 있는 필드
+								eachData_error.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum});
+							}else {
+								if(vrDataObj[i].FgA.indexOf('1') > -1){
+									eachData_suspicious.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum});
+								}else{
+									eachData.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum});
+								}
+							}
+//							eachData.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum});
+						}
+						
+//						_chartInstance.series[idx*1].setData(eachData); 
+						
+//						 '#dc143c' : '#fd7a16') : '#3e93ef'  //오류 의심 정상
+						_chartInstance.addSeries({
+							userHTML:true,
+							name: whichVar + ' 양호',
+							data: eachData,
+							color : '#229954' //blue #3e93ef
+								,turboThreshold:0 //series item이 array가 아니고 object일 경우 디폴트 값인 1000 넘으면 시리즈 드로잉 안함. 0이 disable 
+						}); 
+//						if(eachData_suspicious.length != 0 ){
+						_chartInstance.addSeries({
+							userHTML:true,
+							name: whichVar + ' 의심',
+							data: eachData_suspicious,
+							color : '#fd7a16'
+								,turboThreshold:0 
+						}); 
+//						}
+//						if(eachData_error.length != 0 ){
+						_chartInstance.addSeries({
+							userHTML:true,
+							name: whichVar + ' 오류',
+							data: eachData_error,
+							color : '#dc143c'
+								,turboThreshold:0 
+						}); 
+//						}		
+					});
+					
+					var title = whichVar;
+					_chartInstance.setTitle({text: title});
+					
+					map.put(chartId, _chartInstance);
+					systime('addChart_L1_APS_M()', 'end');
 				},
 				cache: false,
 				

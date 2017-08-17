@@ -57,14 +57,16 @@
 							<security:authentication property="principal.username" var="check" />
 						</security:authorize>
             		
+            			<!-- 
             			<li>
             				<a onclick="javascript:fn_main_headPageMove('8318','cmm/sitemap')"><i class="fa fa-sitemap fa-fw"></i> Site map </a>
             			</li>
+					-->	
               			<c:choose>
 							<c:when test="${empty check}">
 								<!-- 
-	              					<li><a href="${pageContext.request.contextPath}/auth/path/to/somewhere.do"><i class="fa fa-sign-in fa-fw"></i> Administration</a></li>
 								 -->
+	              					<li><a href="${pageContext.request.contextPath}/auth/path/to/somewhere.do"><i class="fa fa-sign-in fa-fw"></i> Administration</a></li>
               				</c:when>	
 		    				<c:otherwise>
 		    				
@@ -126,7 +128,7 @@
            	    <!-- mega menu 01-->
 			    <!-- mega menu 01-->
 			    <!-- mega menu 01-->
-                <li class="dropdown menu-large ">
+                <li class="dropdown menu-large disabled hidden">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">품질관리<b class="caret"></b></a>				
 					<ul class="dropdown-menu megamenu row">
 						<li class="col-sm-4">
@@ -210,7 +212,7 @@
                  
                  
                  <li>
-                     <a href="#LINK" onclick="javascript:fn_main_headPageAction('51','lvl_1/QI.do')" >품질지표</a>
+                     <a href="#LINK" onclick="javascript:fn_main_headPageAction('51','lvl_1/QI.do')" >품질관리</a>
                  </li>
                  <li class="dropdown hidden">
                  	<a href="#" class="dropdown-toggle" data-toggle="dropdown">L2 품질감시<b class="caret"></b></a>

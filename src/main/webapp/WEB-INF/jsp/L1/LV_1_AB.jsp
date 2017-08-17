@@ -95,8 +95,8 @@
  -->
 	<script src="${pageContext.request.contextPath}/js/highchart/highcharts-more.js"></script>
 	<!-- boot.js causes selection error uu
-	 -->
 	<script src="${pageContext.request.contextPath}/js/highchart/modules/boost.src.djf.custom.js"></script>
+	 -->
 	<script src="${pageContext.request.contextPath}/js/highchart/modules/exporting.js"></script>
 	<script src="${pageContext.request.contextPath}/js/highchart/modules/offline-exporting.js"></script>
 	<script src="${pageContext.request.contextPath}/js/highchart/modules/export-csv.js"></script>
@@ -497,9 +497,26 @@ sysout(varSelected);
 					}else if(typeOfChart=='L1-NEPHELO'){
 						var vsnrHTML =  getDraggableContainerHTML(itm, 'Level-1-Nephelometer (STN 132, DEV 109)','nodet', ITEM_SIZE);
 						$(targetDivId).append(vsnrHTML);
-						pleaseWait(meItem);
+						pleaseWait(meItem);	
 						var url_VSNR = '<c:url value='/' />timeseries/retrieval/L1_NEPHELO';
 						addChart_NEPHELO(url_VSNR,dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum.split('-').join('_'), meItem, chartingPeriod);					
+					//Level 1 OPC PMx	
+					//Level 1 OPC PMx	
+					}else if(typeOfChart=='L1-OPCPMX'){
+						var vsnrHTML =  getDraggableContainerHTML(itm, 'Level-1-OPC PMX (STN 140, DEV 113)','nodet', ITEM_SIZE);
+						$(targetDivId).append(vsnrHTML);
+						pleaseWait(meItem);
+						var url_VSNR = '<c:url value='/' />timeseries/retrieval/L1_OPCPMX';
+						addChart_OPC_PMX(url_VSNR,dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum.split('-').join('_'), meItem, chartingPeriod);					
+						
+					//Level 1 APS_M	
+					//Level 1 APS_M	
+					}else if(typeOfChart=='L1-APSM'){
+						var vsnrHTML =  getDraggableContainerHTML(itm, 'Level-1-APS M (STN 132, DEV 103)','nodet', ITEM_SIZE);
+						$(targetDivId).append(vsnrHTML);
+						pleaseWait(meItem);
+						var url_VSNR = '<c:url value='/' />timeseries/retrieval/L1_APSM';
+						addChart_APS_M(url_VSNR,dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum.split('-').join('_'), meItem, chartingPeriod);					
 						
 					//Level 1 A Environment Variables	
 					}else if(typeOfChart=='L1A-QI01'){
@@ -987,7 +1004,7 @@ sysout(varSelected);
 	            	
 	            	<div id="retrievalRangeSelector" class="dropdown select pull-left" style="margin-left: 3px;margin-right: 3px">
 					    <button class="  btn-small dropdown-toggle " type="button" id="menu1" data-toggle="dropdown" style="margin-top:6px;">
-					    	<span class="selected" id="1" value="WEEK">1주일</span><span class="caret"></span>
+					    	<span class="selected" id="0" value="DAY">1일</span><span class="caret"></span>
 				    	</button>
 					    <ul class="dropdown-menu option" role="menu" >
 					      <li id="0" role="presentation" value="DAY"><a role="menuitem" tabindex="-1" >1일</a></li>
@@ -1062,7 +1079,7 @@ sysout(varSelected);
 	            	<ul id="breadcrumbs-one" class="pull-right vcenter" >
 						<li><a href="${pageContext.request.contextPath}/cmm/main/mainPage.do">Home</a></li>
 						<!-- <li><a>Level 1 A</a></li> -->
-						<li><a>Level 1</a></li>
+						<li><a>품질관리</a></li>
 					</ul>
             	</div>
             </div>

@@ -88,6 +88,61 @@ public class TimeSeriesChartController {
 		if(vec0.size()!=0)arr.add(vec0);
 		return arr;
 	}
+
+	
+	/*
+	 * Level 1 OPC PMX 
+	 * */
+	@RequestMapping(value = "timeseries/retrieval/L1_OPCPMX", method=RequestMethod.GET)
+	@ResponseBody
+//	public ArrayList<HashMap<String,Object>> selectMatchingData(@RequestParam("targetDate") String targetDate,String menuId, String submenuId, String imgMode,  ModelMap model) throws Exception{
+	public ArrayList<Vector> selectMatchingData_L1_OPC_PMX(@RequestParam("targetDate") String targetDate, String dBegin,  String whichVar,  ModelMap model) throws Exception{
+		
+		HashMap<String, String> hashmap = new HashMap<String, String>();
+		hashmap.put("targetDate", targetDate);
+		hashmap.put("dBegin", dBegin);
+		hashmap.put("varType", whichVar);
+		
+		ArrayList<HashMap<String,Object>> results = timeSeriesDataDAOService.selectOPCPMXData_L1(hashmap);
+		log.info("[" + whichVar + ".results.size()] " + results.size());
+		//ㅠ 
+		ArrayList<Vector> arr = new ArrayList<Vector>();
+		Vector<HashMap<String, Object>> vec0 = new Vector<HashMap<String,Object>>();
+		
+		for(HashMap<String,Object> row : results){
+			vec0.add(row);
+		}
+		if(vec0.size()!=0)arr.add(vec0);
+		return arr;
+	}
+	
+	
+	/*
+	 * Level 1 APS M 
+	 * Level 1 APS M 
+	 * */
+	@RequestMapping(value = "timeseries/retrieval/L1_APSM", method=RequestMethod.GET)
+	@ResponseBody
+//	public ArrayList<HashMap<String,Object>> selectMatchingData(@RequestParam("targetDate") String targetDate,String menuId, String submenuId, String imgMode,  ModelMap model) throws Exception{
+	public ArrayList<Vector> selectMatchingData_L1_APS_M(@RequestParam("targetDate") String targetDate, String dBegin,  String whichVar,  ModelMap model) throws Exception{
+		
+		HashMap<String, String> hashmap = new HashMap<String, String>();
+		hashmap.put("targetDate", targetDate);
+		hashmap.put("dBegin", dBegin);
+		hashmap.put("varType", whichVar);
+		
+		ArrayList<HashMap<String,Object>> results = timeSeriesDataDAOService.selectAPSMData_L1(hashmap);
+		log.info("[" + whichVar + ".results.size()] " + results.size());
+		//ㅠ 
+		ArrayList<Vector> arr = new ArrayList<Vector>();
+		Vector<HashMap<String, Object>> vec0 = new Vector<HashMap<String,Object>>();
+		
+		for(HashMap<String,Object> row : results){
+			vec0.add(row);
+		}
+		if(vec0.size()!=0)arr.add(vec0);
+		return arr;
+	}
 	
 
 	

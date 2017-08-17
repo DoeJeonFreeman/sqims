@@ -7,6 +7,8 @@ public interface TimeSeriesDataMapper {
     
 	 ArrayList<HashMap<String,Object>> selectCRDSData_L1(HashMap<String, String> hashmap);
 	 ArrayList<HashMap<String,Object>> selectNEPHELOData_L1(HashMap<String, String> hashmap);
+	 ArrayList<HashMap<String,Object>> selectOPCPMXData_L1(HashMap<String, String> hashmap);
+	 ArrayList<HashMap<String,Object>> selectAPSMData_L1(HashMap<String, String> hashmap);
 	 
 	 
 	 

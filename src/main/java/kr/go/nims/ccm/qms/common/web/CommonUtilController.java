@@ -11,9 +11,6 @@ import java.io.OutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.poi.xwpf.converter.xhtml.XHTMLConverter;
-import org.apache.poi.xwpf.converter.xhtml.XHTMLOptions;
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -55,7 +52,7 @@ public class CommonUtilController {
 
 	//=============================================================================================================
 	//=============================================================================================================
-	/** */
+	/**
 	@RequestMapping(value = "async/report/lvl_2/monthly.do")
 	@ResponseBody
 	public String POIRunner(HttpServletRequest request, @RequestParam("path") String documentPath) {
@@ -84,4 +81,5 @@ public class CommonUtilController {
 		}
 		return str2return;
 	}
+	 *  */
 }

@@ -97,7 +97,35 @@
 			                          {title: "BSC 550 STD", key: "L1-NEPHELO_BSC550-STD" },
 			                          {title: "BSC 700 STD", key: "L1-NEPHELO_BSC700-STD" }
 			                        ]
+			                      },
+			                      {title: "OPC PMx", folder: true, hideCheckbox:true, expanded: true,
+			                        children: [
+			                          {title: "PM 1",  key: "L1-OPCPMX_PM1" },
+			                          {title: "PM 10",  key: "L1-OPCPMX_PM10" },
+			                          {title: "PM 2_5",  key: "L1-OPCPMX_PM2-5" }
+			                        ]
+			                      },
+			                      
+			                      {title: "APS_M", folder: true, hideCheckbox:true, expanded: true,
+			                        children: [
+			                          {title: "AD 05",  key: "L1-APSM_AD05" },
+			                          {title: "AD 07",  key: "L1-APSM_AD07" },
+			                          {title: "AD 08",  key: "L1-APSM_AD08" },
+			                          {title: "AD 25",  key: "L1-APSM_AD25" },
+			                          {title: "AD 38",  key: "L1-APSM_AD38" },
+			                          {title: "AD DVDP 05",  key: "L1-APSM_AD-DVDP05" },
+			                          {title: "AD DVDP 07",  key: "L1-APSM_AD-DVDP07" },
+			                          {title: "AD DVDP 08",  key: "L1-APSM_AD-DVDP08" },
+			                          {title: "AD DVDP 25",  key: "L1-APSM_AD-DVDP25" },
+			                          {title: "AD DVDP 38",  key: "L1-APSM_AD-DVDP38" }
+			                        ]
+			                      },
+			                      
+			                      {title: "RADI", folder: true, hideCheckbox:true, expanded: true,
+			                        children: [
+			                        ]
 			                      }
+			                      
 			                    ]
 			                  } 
 			                  /* 

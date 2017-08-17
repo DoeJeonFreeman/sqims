@@ -51,9 +51,36 @@
 			  		AND OBS_DATE &lt;= DATE_FORMAT('${targetDate} 23:59:59.999', '%Y-%m-%d %H:%i:%s.%f')
  	</select>
  	
+ 	<!-- STN_CD 132 DEV_CD 118은 최근 자료 없음. FgA 역시 null임. -->
+ 	<select id="selectOPCPMXData_L1" parameterType="hashmap" resultType="hashmap">
+		select 
+			DATE_FORMAT(OBS_DATE ,'%Y-%m-%d %H:%i:%s.%f') as DSTR,
+			
+			${varType} as VALUE, snum ,FgA, Fg1, Fg2, Fg3, Fg4, Fg5, Fg6 
+	          FROM OPC_PMx 
+	            WHERE STN_CD = 140 
+	            AND DEV_CD = 113
+			  		AND OBS_DATE &gt;= DATE_FORMAT('${dBegin}', '%Y-%m-%d') 
+			  		AND OBS_DATE &lt;= DATE_FORMAT('${targetDate} 23:59:59.999', '%Y-%m-%d %H:%i:%s.%f')
+ 	</select>
+ 	
  	<!-- 
 			  		AND OBS_DATE &lt;= DATE_FORMAT('${targetDate} 23:59:59.999', '%Y-%m-%d %H:%i:%s.%f')
  	 -->
+ 	 
+ 	<select id="selectAPSMData_L1" parameterType="hashmap" resultType="hashmap">
+		select 
+			DATE_FORMAT(OBS_DATE ,'%Y-%m-%d %H:%i:%s.%f') as DSTR,
+			
+			${varType} as VALUE, snum ,FgA, Fg1, Fg2, Fg3, Fg4, Fg5, Fg6 
+	          FROM APS_M 
+	            WHERE STN_CD = 132 
+	            AND DEV_CD = 103
+			  		AND OBS_DATE &gt;= DATE_FORMAT('${dBegin}', '%Y-%m-%d') 
+			  		AND OBS_DATE &lt;= DATE_FORMAT('${targetDate} 23:59:59.999', '%Y-%m-%d %H:%i:%s.%f')
+ 	</select>
+ 	
+ 	
  	
 <!-- 	
  	<select id="seekLatestStuff" parameterType="string" resultType="UpToDateStuff">

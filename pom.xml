@@ -87,7 +87,7 @@
     
 <!-- 	<version>3.5-FINAL</version> -->
 
-<!--  -->
+<!-- 
 	<dependency>
 	    <groupId>org.apache.poi</groupId>
 	    <artifactId>poi</artifactId>
@@ -110,6 +110,10 @@
         <artifactId>org.apache.poi.xwpf.converter.core</artifactId>
         <version>1.0.5</version>
     </dependency>
+ -->
+    
+    
+    
     <!-- 
     <dependency>
         <groupId>fr.opensagres.xdocreport</groupId>
@@ -409,12 +413,12 @@
     
     
     <!-- ojdbc14(compatible with java5?)
-     -->
      	<dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc14 </artifactId>
             <version>10.2.0.4.0</version>       
         </dependency>
+     -->
     
     
     
