@@ -54,26 +54,22 @@
             		<ul class="list-inline">
             		
 	            		<security:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
-							<security:authentication property="principal.username" var="check" />
-						</security:authorize>
+						<security:authentication property="principal.username" var="check" />
+					</security:authorize>
             		
-            			<!-- 
-            			<li>
-            				<a onclick="javascript:fn_main_headPageMove('8318','cmm/sitemap')"><i class="fa fa-sitemap fa-fw"></i> Site map </a>
-            			</li>
-					-->	
               			<c:choose>
 							<c:when test="${empty check}">
 								<!-- 
+									security authorize tag isAuthenticated()
 								 -->
-	              					<li><a href="${pageContext.request.contextPath}/auth/path/to/somewhere.do"><i class="fa fa-sign-in fa-fw"></i> Administration</a></li>
+	              					<li><a href="${pageContext.request.contextPath}/auth/admin/login.action"><i class="fa fa-sign-in fa-fw"></i> Administration</a></li>
               				</c:when>	
-		    				<c:otherwise>
+		    					<c:otherwise>
 		    				
 						        <li><a onclick=""><i class="fa fa-cog fa-spin"></i> "${check}" 님</a> 관리자로 로그인하셨습니다.</li>
 						        <li><a href="${pageContext.request.contextPath}/j_spring_security_logout"><i class="fa fa-sign-out fa-fw"></i> Log out</a></li>
-		    				</c:otherwise>
-		    			</c:choose>	
+		    					</c:otherwise>
+		    				</c:choose>	
                     </ul>
           		</div>
       	 	 </div>

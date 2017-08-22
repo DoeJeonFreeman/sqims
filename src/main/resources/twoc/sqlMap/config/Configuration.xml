@@ -9,6 +9,7 @@
 		<!--
 			-->
 		<typeAlias type="kr.go.nims.ccm.qms.domain.MostRecentStuffVO" alias="UpToDateStuff" />
+		<typeAlias type="kr.go.nims.ccm.qms.domain.LoginVO" alias="User" />
 		<!-- 
 		<typeAlias type="kr.go.nims.ccm.qms.domain.TimeSeriesDataVO" alias="TimeSeriesData" />
 		 -->
@@ -17,8 +18,8 @@
 	<mappers>
 		<!--
 		<mapper resource="twoc/sqlMap/mybatis/BoardMapper.xml" />
-		<mapper resource="twoc/sqlMap/mybatis/UserMapper.xml" />
 			-->
+		<mapper resource="twoc/sqlMap/mybatis/ArcticUserMapper.xml" />
 		<mapper resource="twoc/sqlMap/mybatis/MostRecentStuffMapper.xml" />
 		<mapper resource="twoc/sqlMap/mybatis/TimeSeriesDataMapper.xml" />
 	</mappers>

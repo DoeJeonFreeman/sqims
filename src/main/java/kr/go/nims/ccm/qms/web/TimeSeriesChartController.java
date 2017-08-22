@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.go.nims.ccm.qms.dao.TimeSeriesDataDAOService;
+import kr.go.nims.ccm.qms.domain.MostRecentStuffVO;
 import kr.go.nims.ccm.qms.domain.TimeSeriesDataVO;
 
 
@@ -34,6 +35,17 @@ public class TimeSeriesChartController {
 	@Autowired
 	private TimeSeriesDataDAOService timeSeriesDataDAOService;
 
+	
+	
+	@RequestMapping(value = "lvl_1/fxxku")
+	@ResponseBody
+	public String fxxku(HttpServletRequest request, ModelMap model) throws Exception{
+		
+		log.info("fxxxxxxxxxxxxxxxk !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		
+		return "itWorks";
+	}
+	
 	
 	
 	/*

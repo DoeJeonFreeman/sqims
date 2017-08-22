@@ -59,7 +59,7 @@
 		<property name="dataSource" ref="dataSource" />
 	    <property name="typeAliasesPackage" value="kr.go.nims.ccm.qms.domain" />
         <!-- 
-        <property name="configLocation" value="classpath:twoc/sqlMap/config/Configuration.xml" />
+        <property name="configLocation" value="classpath:twoc/sqlMap/config/Configuration.xml" /> 
         -->
 	    <property name="mapperLocations" value="classpath:twoc/sqlMap/mybatis/*.xml" />
     </bean>

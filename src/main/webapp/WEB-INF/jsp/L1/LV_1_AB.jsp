@@ -3,6 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -67,7 +69,21 @@
 	
 <!-- 차트드로잉 관련 펑션 분리 -->
 <!-- 차트드로잉 관련 펑션 분리 -->
-<script src="${pageContext.request.contextPath}/js/meDrawTimeseriesChart.js"></script>
+<security:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+	<security:authentication property="principal.username" var="check" />
+</security:authorize>
+
+<c:choose>
+	<c:when test="${empty check}">
+		<script src="${pageContext.request.contextPath}/js/meDrawTimeseriesChart4plainUsers.js"></script>
+	</c:when>	
+	<c:otherwise>
+		<script src="${pageContext.request.contextPath}/js/meDrawTimeseriesChart.js"></script>
+	</c:otherwise>
+</c:choose>
+
+
+
 <link href="${pageContext.request.contextPath}/js/toastr/toastr.css" rel="stylesheet">
 <script src="${pageContext.request.contextPath}/js/toastr/toastr.js"></script>
 	
@@ -662,35 +678,6 @@ sysout(varSelected);
 	<script type="text/javascript">
 		$(document).ready(function() {
 			
-			/* $.contextMenuCommon({
-				  selector: '.box-content',
-				  items: {
-
-				    fontBold: {
-				      label: 'Bold Font',
-				      type: 'checkbox'
-				    },
-
-				    fontSize: {
-				      label: 'Font Size',
-				      items: {
-				        size1: {
-				          label: 'Small',
-				          type: 'radio'
-				        },
-				        size2: {
-				          label: 'Medium',
-				          type: 'radio'
-				        },
-				        size3: {
-				          label: 'Large',
-				          type: 'radio'
-				        }
-				      }
-				    }
-
-				  }
-				}); */
 			
 			$('#optionPanel').slimScroll({
 			    height: '100%',
@@ -865,91 +852,244 @@ sysout(varSelected);
 			//resize draggableITem
 			//resize draggableITem
 			
-
 			
-			/* $.contextMenuCommon({
-			  selector: '.box-content',
-			  items: {
+			
 
-			    fontBold: {
-			      label: 'Bold Font',
-			      type: 'checkbox'
-			    },
-
-			    fontSize: {
-			      label: 'Font Size',
-			      items: {
-			        size1: {
-			          label: 'Small',
-			          type: 'radio'
-			        },
-			        size2: {
-			          label: 'Medium',
-			          type: 'radio'
-			        },
-			        size3: {
-			          label: 'Large',
-			          type: 'radio'
-			        }
-			      }
-			    }
-
-			  }
-			}); */
 			
 			$.contextMenuCommon({
 			  selector: '#TSCWrapper0',
+			  callback:function(key, options){
+				alert(key);			  
+			  },
 			  items: {
-
-			    fontBold: {
+			    MANNUAL_FLAGGING_STEP_1: {
 			      label: '선택한 값들의 상태를 변경합니다.',
-			      //type: 'checkbox'
-			    },
-
-			    fontSize: {
-			      label: '상태 변경',
 			      items: {
-			        size1: {
+			        GOOD2GO: { /////////////////////////
 			          label: '양호',
-			          //type: 'radio'
+			          items:{
+			        		MF1_000: {
+				          	label: '000: 자료품질 양호',
+					        type: 'radio'
+				        	},			        	  
+			          }
 			        },
-			        size2: {
+			        
+			        SUSPICIOUS: { //////////////////////
 			          label: '의심',
-			          
 			          items: {
-				        	size21: {
-					          	label: '장비상태 불안',
-					          	items: {
-						        	size211: {
-							          	label: 'Zero/span 체크 (682)',
+				        	suspicious1: {
+				          	label: '장비상태 불안(자체교정, 점검)으로 자료의심',
+				          	items: {
+				          		MF1_147: {
+							          	label: '147: 검출한계 이하값이지만 유효한 자료로 판단될 때',
 								        type: 'radio'
 						        	},
-						        	size212: {
-							          	label: '검교정 시기 (683)',
+						        	MF1_684: {
+							          	label: '684: Zero/span 체크',
 								        type: 'radio'
 						        	},
-						        	size213: {
-							          	label: '장비 문제 발생 (699)',
+						        	MF1_683: {
+							          	label: '683: 검교정 시기',
+								        type: 'radio'
+						        	},
+						        	MF1_699: {
+							          	label: '699: 장비 문제 발생',
 								        type: 'radio'
 						        	},
 					        	}
-				            },
-				            size22: {
-				            	label:'관측환경 및 기상상황 불안'
-				            }
+			            },
+			            suspicious2: {
+				          	label: '장비상태 정상이나 관측환경 및 기상상황 불안',
+				          	items: {
+				          		MF1_110: {
+							          	label: '110: 태풍, 안개, 강수 이외의 특이기상상황(예: 황사, 연무) 또는 분류에 없는 사례',
+								        type: 'radio'
+						        	},
+						        	MF1_600: {
+							          	label: '600: (온실가스) 제습장치 이상',
+								        type: 'radio'
+						        	},
+						        	MF1_635: {
+							          	label: '635: 내부 온도 이상(정상값과 많이 차이날 경우)',
+								        type: 'radio'
+						        	},
+						        	MF1_640: {
+							          	label: '640: 장비 내부 상대습도 40% 이상',
+								        type: 'radio'
+						        	},
+						        	MF1_641: {
+							          	label: '641:에어로졸 필터 장착 오류',
+								        type: 'radio'
+						        	},
+						        	MF1_647: {
+							          	label: '647: 관측소 주변의 소각 등',
+								        type: 'radio'
+						        	},
+						        	MF1_649: {
+							          	label: '649: 일시적인 정전으로 측정기 운영에 영향',
+								        type: 'radio'
+						        	},
+						        	MF1_652: {
+							          	label: '652: 관측소 혹은 주변 공사 등',
+								        type: 'radio'
+						        	},
+						        	MF1_657: {
+							          	label: '657: 폭설, 폭우, 소나기 등 강한 강수',
+								        type: 'radio'
+						        	},
+						        	MF1_658: {
+							          	label: '658: 유량이 접게 입력된 경우, 예:펌프 이상으로 기기에 실내공기 유입, 유량계 장애 등',
+								        type: 'radio'
+						        	},
+						        	MF1_666: {
+							          	label: '666:(온실가스)인렛 필터를 교환, (반응가스 에어로졸) 필터 오염 또는 손상으로 교체',
+								        type: 'radio'
+						        	},
+						        	MF1_676: {
+							          	label: '676: 안개(시정<1km 이하)',
+								        type: 'radio'
+						        	},
+						        	MF1_678: {
+							          	label: '678: 태풍',
+								        type: 'radio'
+						        	},
+						        	MF1_685: {
+							          	label: '685: (온실가스)실험실용 3차 표준가스생산/국제차순환실험 등을 위한 실험기간',
+								        type: 'radio'
+						        	},
+						        	MF1_782: {
+							          	label: '782: 강수(비,눈)',
+								        type: 'radio'
+						        	}
+					        	}
+			            }
+			            
 			          }
-			        
 			        },
-			        size3: {
+			        
+			        MISSING: {
 			          label: '결측',
-			          //type: 'radio'
+			          items:{
+			        	  	MF1_910: {
+				          	label: '910: 장애로 장비가동 중단(수리기간 포함)',
+					        type: 'radio'
+				        	},			        	  
+				        	MF1_980: {
+				          	label: '980: 교정 및 점검, Zero/span 체크로 장비가동 중단',
+					        type: 'radio'
+				        	},			        	  
+				        	MF1_999: {
+				          	label: '999: 정전 등 외적요인과 원인불명의 요인으로 자료소실',
+					        type: 'radio'
+				        	},			        	  
+			          }
 			        }
 			      }
 			    }
 
 			  }
-			}); 
+			}); // end of contextmenu declaration haha
 			
+			
+			Highcharts.setOptions({
+			    exporting: {
+			      buttons: {
+			        contextButton: {
+			          text: 'Export',
+			          menuItems: [{
+			            text: 'Print this chart',
+			            onclick: function() {
+			              this.print();
+			              thisTitle = this.options.title.text;
+			              newTitle = thisTitle.replace("<br>", ": ");
+			              newTitle = thisTitle.replace("<br />", ": ");
+			              ga('send', 'event', 'Highcharts', 'print', newTitle + ' | ' + document.title);
+			            }
+			          }, {
+			            separator: true,
+			          }, {
+			            text: 'Save as PNG',
+			            onclick: function() {
+			              this.exportChart();
+			              thisTitle = this.options.title.text;
+			              newTitle = thisTitle.replace("<br>", ": ");
+			              newTitle = thisTitle.replace("<br />", ": ");
+			              ga('send', 'event', 'Highcharts', 'png', newTitle + ' | ' + document.title);
+			            }
+			          }, {
+			            text: 'Save as JPEG',
+			            onclick: function() {
+			              this.exportChart({
+			                type: 'image/jpeg'
+			              });
+			              thisTitle = this.options.title.text;
+			              newTitle = thisTitle.replace("<br>", ": ");
+			              newTitle = thisTitle.replace("<br />", ": ");
+			              ga('send', 'event', 'Highcharts', 'jpeg', newTitle + ' | ' + document.title);
+			            }
+			          }, {
+			            text: 'Save as SVG',
+			            onclick: function() {
+			              this.exportChart({
+			                type: 'image/svg+xml'
+			              });
+			              thisTitle = this.options.title.text;
+			              newTitle = thisTitle.replace("<br>", ": ");
+			              newTitle = thisTitle.replace("<br />", ": ");
+			              ga('send', 'event', 'Highcharts', 'svg', newTitle + ' | ' + document.title);
+			            }
+			          }, {
+			            text: 'Save as PDF',
+			            onclick: function() {
+			              this.exportChart({
+			                type: 'application/pdf'
+			              });
+			              thisTitle = this.options.title.text;
+			              newTitle = thisTitle.replace("<br>", ": ");
+			              newTitle = thisTitle.replace("<br />", ": ");
+			              ga('send', 'event', 'Highcharts', 'pdf', newTitle + ' | ' + document.title);
+			            }
+			          }, {
+				            separator: true,
+			          }, {
+			            text: '수동품질검사-1단계',
+			            onclick: function () {
+							var str = "";
+							if(this.getSelectedPoints().length > 0){
+								str += this.getSelectedPoints().length + ' points affected.\n\n';
+							}else{
+								alert('선택된 값이 없습니다.');
+								return;
+							}
+							
+			                	$.each(this.getSelectedPoints(), function (i, value) {
+			                		str += '['+ Highcharts.dateFormat('%Y-%m-%d %H:%M:%S',value.x) + '] pid:'+value.pid + ' / FGA:' + value.FgA +'\n';
+			                });
+			                
+			                if (window.confirm("선택한 값의 상태를 변경하겠습니까?")) { 
+				                	alert(str);
+			                		$.ajax({
+			                			type: "GET",
+			                			url: "fxxku",
+			                			data: {FgM:'990'},
+			                			success:function(data){
+			                				toastr.info('<b>선택한 값의 상태가 업데이트 되었습니다.</b>');
+			                				var selectedDateObj= moment($("#meNMSCDemo").val(), 'YYYY-MM-DD'); //.toDate(); //use .toDate() to transform a moment object into a js date obj haha
+			                				meRequest(selectedDateObj);	
+//			                				meRequest(moment('2017-05-21','YYYY-MM-DD'));	
+			                			},
+			                			error:function(error){
+			                				toastr.error('<b>선택한 값의 상태가 업데이트 되었습니다.</b>');
+			                			}
+			                		});
+			                	}
+						}//onclick end
+			          }]
+			        }
+			      }
+			    }
+			  });
 			
 			
 		});
@@ -1191,41 +1331,34 @@ sysout(varSelected);
             	<!--tab menus end-->
             	<!-- tab body    row가 패딩속성땜에 250넘어서 hscrollbar 생김 ㅎㅎ-->
                 <div class="row"  style="width:350px;">
+                
+                
              		<!--FIRST TAB-->
-               		<div id="OPT_0" >
-               		<!-- 
-			        	<c import url="/mePageLink.do?link=L1/WHOLE_CONDITIONS" />
-               		 -->
-			        	<c:import url="/mePageLink.do?link=L1/ENTIRE_CONDITIONS_L1">
-			        		<c:param name="identifier" value="0"/>
-			        	</c:import>
-               		</div>
+             		<security:authorize access="!isAuthenticated()">
+				        	<c:import url="/mePageLink.do?link=L1/ENTIRE_CONDITIONS_L1_4plainUsers">
+				        		<c:param name="identifier" value="0"/>
+				        	</c:import>
+                		</security:authorize>
+             		<security:authorize access="isAuthenticated()">
+				        	<c:import url="/mePageLink.do?link=L1/ENTIRE_CONDITIONS_L1">
+				        		<c:param name="identifier" value="0"/>
+				        	</c:import>
+					</security:authorize>
+                		
+             		<!--SECOND TAB-->
                		<div id="OPT_1" >
-               			<!-- 
-			        	<c import url="/mePageLink.do?link=L1/WHOLE_CONDITIONS" />
-               			 -->
-			        	<c:import url="/mePageLink.do?link=L1/ENTIRE_CONDITIONS_L1">
-			        		<c:param name="identifier" value="1"/>
-			        	</c:import>
+				        	<c:import url="/mePageLink.do?link=L1/ENTIRE_CONDITIONS_L1">
+				        		<c:param name="identifier" value="1"/>
+				        	</c:import>
                		</div>
+               		
+             		<!--THIRD TAB-->
                		<div id="OPT_2" >
-	               		<!-- 
-			        	<c import url="/mePageLink.do?link=L1/WHOLE_CONDITIONS" />
-	               		 -->
                			<c:import url="/mePageLink.do?link=L1/ENTIRE_CONDITIONS_L1">
                				<c:param name="identifier" value="2"/>
-			        	</c:import>
+			        		</c:import>
                		</div>
                		
-               		
-               		<!-- 
-	               		<div id="OPT_3" >
-				        	<c 		import url="/mePageLink.do?link=QI/QI_LV1B_EI_conditions" />
-	               		</div>
-	               		<div id="OPT_4" >
-				        	<c 		import url="/mePageLink.do?link=QI/QI_LV2_conditions" />
-	               		</div>
-               		 -->
         
        			</div>		 
  			</div>       
@@ -1238,9 +1371,12 @@ sysout(varSelected);
             <div id="tabs" class=""><!-- class="container-fluid xyz" -->
             	<!-- tab menus begin-->
             	<ul> <!--ul class="hidden" -->  
-					<li><a href="#TSCWrapper0" data-toggle="tab"> Tab 1 </a></li>    
+					<li><a href="#TSCWrapper0" data-toggle="tab"> Level 1 </a></li>    
+					<!-- 
 					<li><a href="#TSCWrapper1" data-toggle="tab"> Tab 2 </a></li>    
 					<li><a href="#TSCWrapper2" data-toggle="tab"> Tab 3 </a></li>    
+					 -->
+					
 					<!-- 
 					<li><a href="#TSCWrapper0" data-toggle="tab"> TAB Menu-always visible </a></li>    
 					<li><a href="#TSCWrapper1" data-toggle="tab"> Create new tabs dynamically </a></li>    

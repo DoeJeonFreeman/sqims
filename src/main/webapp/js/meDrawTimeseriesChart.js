@@ -48,7 +48,8 @@
 //			draggableDiv +=	"               	<img src='${pageContext.request.contextPath}/resource/assets/preloader.gif' class='devoops-getdata' alt='preloader'/>";
 //			draggableDiv +=	"				</div>";
 			
-			draggableDiv +=	"				<div id='"+ chartId + "' class='classySnob' style='height: 330px;margin: 0 auto;'></div>";
+//			draggableDiv +=	"				<div id='"+ chartId + "' class='classySnob' style='height: 330px;margin: 0 auto;'></div>";
+			draggableDiv +=	"				<div id='"+ chartId + "' class='classySnob' style='height: 500px;margin: 0 auto;'></div>";
 			draggableDiv +=	"			</div>";
 			draggableDiv +=	"		</div>";
 //			draggableDiv +=	"	</div>";
@@ -434,12 +435,11 @@
 									if(!isStillPressedDown){
 										return true;  //do zoom instead of selecting points haha
 									}
-									
+									/**
 									var menuItemArray = this.options.exporting.buttons.contextButton.menuItems;
 									if(menuItemArray.length < 8){
 										this.options.exporting.buttons.contextButton.menuItems.push({
 											text: "Change Flag",
-//								            onclick: HelloFxxkingWorld
 											onclick: function(event){
 												var str = "";
 												if(this.getSelectedPoints().length > 0){
@@ -456,7 +456,7 @@
 											}
 										});
 									}
-									
+									*/
 								    // Select points
 								    Highcharts.each(this.series, function (series) {
 								        Highcharts.each(series.points, function (point) {
@@ -466,10 +466,30 @@
 								            }
 								        });
 								    });
-
+/**
+								    var menuItemArray = this.options.exporting.buttons.contextButton.menuItems;
+								    alert('[menuItemArray.length]' + menuItemArray.length);
+								    //console.log(menuItemArray);
+									if(menuItemArray.length < 8){
+										this.options.exporting.buttons.contextButton.menuItems.push({
+											text: "Change Flag",
+											onclick: function(event){
+												var str = "";
+												if(this.getSelectedPoints().length > 0){
+													str += this.getSelectedPoints().length + ' points affected.\n\n';
+												}
+												
+								                $.each(this.getSelectedPoints(), function (i, value) {
+								                	str += '['+ Highcharts.dateFormat('%Y-%m-%d %H:%M:%S',value.x) + '] pid:'+value.pid + ' / FGA:' + value.FgA +'\n';
+								                });
+								                alert(str);
+											}
+										});
+									}
+*/								    
+								    
 								    // Fire a custom event
 								    //Highcharts.fireEvent(this, 'selectedpoints', { points: this.getSelectedPoints() });
-
 								    // Fire djf custom event
 									toastr.info('<b>' + this.getSelectedPoints().length + ' points selected.</b>');
 								    
@@ -575,14 +595,24 @@
 				},
 				
 				tooltip : {
-					headerFormat: '{point.x:%e. %b %H:%M:%S} <br>',
-					pointFormat : '{point.y:,.5f} [FgA]{point.FgA}',
+//					headerFormat: '{point.x:%e. %b %H:%M:%S} <br>',
+//					pointFormat : '{point.y:,.5f} <br>[FgA S1]{point.F1}<br>[FgA S2]{point.F2}',
+//					footerFormat: '<br/><span style="font-size:10px">[FgA]{point.FgA}</span><br/>',
 //					valueSuffix: 'unit',
 					shared: true, //make the tooltip accessible across all series
 					crosshairs:true,
-//					formatter: function() {
-//						return 'Extra data: <b>' + this.point.pid + '</b>';
-//					}
+					usersHTML:true,
+					formatter: function() {
+						//eachData_suspicious.push({x: d, FgA: vrDataObj[i].FgA, ... })  additional parameter 패싱하려고 오브젝트 어레이로 처리했음. 그래서 this.point.FgA가 아니고 this.points[0].point.FgA 이런 식으로 접근해야함 
+						var str2return = Highcharts.dateFormat("%e. %b %H:%M:%S", this.x) + '<br>';
+						str2return += this.y.toPrecision(6);
+						var autoFlag = this.points[0].point.FgA;
+						for (var i=1; i < autoFlag.length; i++) {
+							if(autoFlag.charAt(i-1) !='0') str2return += '<br/><span style="font-size:10px">[' + i +'단계] ' + this.points[0].point['F'+i] + '</span><br/>'; 
+						}
+						str2return += '<br/><span style="font-size:10px">FgA==' + this.points[0].point.FgA + '</span><br/>';
+						return str2return;
+					}
 				},
 				
 				legend: {
@@ -2275,6 +2305,12 @@
 						        	  connectNulls:false, data: []}
 						          ]*/
 					})); //haha
+//					Highcharts.getOptions().exporting.buttons.contextButton.menuItems.push({
+//					    text: 'My new button',
+//					    onclick: function () {
+//					        alert('OK');
+//					    }
+//					});
 					
 					//chart goes here
 					
@@ -2296,7 +2332,7 @@
 //			        			name: 'L0-CRDS-' + getLevel1A_ENV_Title(ENVTypeCode),
 			        			name: 'L0 CRDS ' + whichVar,
 			        			data: eachData
-	        			}); 
+						 }); 
 						 
 					});
 					
@@ -2309,37 +2345,6 @@
 				        text: 'value'
 				    });*/
 					
-					/**
-					_chartInstance.series[0].data[55].update({
-		            	marker:{
-							fillColor: '#FC3D31'
-						}
-			        });
-					
-					_chartInstance.series[0].data[56].update({
-//			            y:150,
-						marker:{
-							fillColor: '#FC3D31'
-						}
-					});
-					_chartInstance.series[0].data[57].update({
-//			            y:150,
-						marker:{
-							fillColor: '#FC3D31'
-						}
-					});
-					_chartInstance.series[0].data[58].update({
-//			            y:150,
-						marker:{
-							fillColor: '#FC3D31'
-						}
-					});
-					
-					_chartInstance.redraw();
-					*/
-					
-					//$('#'+chartId).pleaseWait('stop');	
-					//charts.push(_chartInstance);
 					map.put(chartId, _chartInstance);
 					systime('addChart_L1_CRDS()', 'end');
 					
@@ -2438,6 +2443,112 @@
 						          ]*/
 					})); //haha
 					
+					var chartObj = $('#'+chartId).highcharts();
+				
+					sysout('////////////////////////////////////////////////////////////////////////////////////////////////////')
+					sysout(_chartInstance);
+					sysout(chartObj);
+					sysout('////////////////////////////////////////////////////////////////////////////////////////////////////')
+					
+	/**				
+//					var menuItemArray = _chartInstance.options.exporting.buttons.contextButton.menuItems;
+					var menuItemArray = chartObj.options.exporting.buttons.contextButton.menuItems;
+					if(menuItemArray.length < 8){
+//						_chartInstance.options.exporting.buttons.contextButton.menuItems.push({
+						chartObj.options.exporting.buttons.contextButton.menuItems.push({
+							separator:true 
+						});
+//						_chartInstance.options.exporting.buttons.contextButton.menuItems.push({
+						chartObj.options.exporting.buttons.contextButton.menuItems.push({
+							text: '수동 품질검사 (1단계)',
+							onclick: function () {
+
+								var str = "";
+//								if(_chartInstance.getSelectedPoints().length > 0){
+								if(chartObj.getSelectedPoints().length > 0){
+//									str += _chartInstance.getSelectedPoints().length + ' points affected.\n\n';
+									str += chartObj.getSelectedPoints().length + ' points affected.\n\n';
+								}else{
+									alert('선택된 값이 없습니다.');
+									return;
+								}
+								
+//				                $.each(_chartInstance.getSelectedPoints(), function (i, value) {
+				                	$.each(chartObj.getSelectedPoints(), function (i, value) {
+				                		str += '['+ Highcharts.dateFormat('%Y-%m-%d %H:%M:%S',value.x) + '] pid:'+value.pid + ' / FGA:' + value.FgA +'\n';
+				                });
+				                
+				                if (window.confirm("선택한 값의 상태를 변경하겠습니까?")) { 
+					                	alert(str);
+				                		$.ajax({
+				                			type: "GET",
+				                			url: "fxxku",
+				                			data: {FgM:'990'},
+				                			success:function(data){
+				                				toastr.info('<b>선택한 값의 상태가 업데이트 되었습니다.</b>');
+				                				var selectedDateObj= moment($("#meNMSCDemo").val(), 'YYYY-MM-DD'); //.toDate(); //use .toDate() to transform a moment object into a js date obj haha
+				                				meRequest(selectedDateObj);	
+//				                				meRequest(moment('2017-05-21','YYYY-MM-DD'));	
+				                			},
+				                			error:function(error){
+				                				toastr.error('<b>선택한 값의 상태가 업데이트 되었습니다.</b>');
+				                			}
+				                		});
+				                	}
+				                
+							}
+						});
+						
+						_chartInstance.options.exporting.buttons.contextButton.menuItems.push({
+							text: '수동 품질검사 (2단계)',
+							onclick: function () {
+								var str = "";
+								if(_chartInstance.getSelectedPoints().length > 0){
+									str += _chartInstance.getSelectedPoints().length + ' points affected.\n\n';
+								}else{
+									alert('선택된 값이 없습니다.');
+									return;
+								}
+								
+								$.each(_chartInstance.getSelectedPoints(), function (i, value) {
+									str += '['+ Highcharts.dateFormat('%Y-%m-%d %H:%M:%S',value.x) + '] pid:'+value.pid + ' / FGA:' + value.FgA +'\n';
+								});
+								
+								if (window.confirm("선택한 값의 상태를 변경하겠습니까?")) { 
+									alert(str);
+									//window.open("exit.html", "Thanks for Visiting!");
+								}
+								
+							}
+						});
+					}
+	*/				
+					
+					
+					/**
+					 * 				
+				 				    var menuItemArray = this.options.exporting.buttons.contextButton.menuItems;
+								    alert('[menuItemArray.length]' + menuItemArray.length);
+								    //console.log(menuItemArray);
+									if(menuItemArray.length < 8){
+										this.options.exporting.buttons.contextButton.menuItems.push({
+											text: "Change Flag",
+											onclick: function(event){
+												var str = "";
+												if(this.getSelectedPoints().length > 0){
+													str += this.getSelectedPoints().length + ' points affected.\n\n';
+												}
+												
+								                $.each(this.getSelectedPoints(), function (i, value) {
+								                	str += '['+ Highcharts.dateFormat('%Y-%m-%d %H:%M:%S',value.x) + '] pid:'+value.pid + ' / FGA:' + value.FgA +'\n';
+								                });
+								                alert(str);
+											}
+										});
+									}
+					 * */
+					
+					
 					//chart goes here
 					
 					$.each (Object.keys(jsonData), function(idx,val){
@@ -2451,13 +2562,13 @@
 							d = Date.UTC(d[1],d[2]*1-1,d[3],d[4],d[5],d[6]);
 //							var colour = (vrDataObj[i].FgA.indexOf('1') > -1)? ((vrDataObj[i].FgA.indexOf('2') > -1)? '#dc143c' : '#fd7a16') : '#3e93ef'  //오류 의심 정상
 //							eachData.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum, color:colour});
-							if(vrDataObj[i].FgA.indexOf('2') > -1){ //error 있는 필드
-								eachData_error.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum});
+							if(vrDataObj[i].FgA.indexOf('2') > -1){ //오류 필드
+								eachData_error.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum 		    ,F1:vrDataObj[i].F1, F2:vrDataObj[i].F2, F3:vrDataObj[i].F3, F4:vrDataObj[i].F4, F5:vrDataObj[i].F5, F6:vrDataObj[i].F6});
 							}else {
-								if(vrDataObj[i].FgA.indexOf('1') > -1){
-									eachData_suspicious.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum});
-								}else{
-									eachData.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum});
+								if(vrDataObj[i].FgA.indexOf('1') > -1){ // 의심 필드 
+									eachData_suspicious.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum    ,F1:vrDataObj[i].F1, F2:vrDataObj[i].F2, F3:vrDataObj[i].F3, F4:vrDataObj[i].F4, F5:vrDataObj[i].F5, F6:vrDataObj[i].F6});
+								}else{ // 정상 필드 
+									eachData.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum  				,F1:vrDataObj[i].F1, F2:vrDataObj[i].F2, F3:vrDataObj[i].F3, F4:vrDataObj[i].F4, F5:vrDataObj[i].F5, F6:vrDataObj[i].F6});
 								}
 							}
 //							eachData.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum});

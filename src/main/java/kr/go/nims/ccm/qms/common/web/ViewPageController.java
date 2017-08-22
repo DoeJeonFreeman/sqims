@@ -82,10 +82,9 @@ public class ViewPageController {
 		
 		model.addAttribute("extSeries", mostRecent);
 		
-		
-		
 		return "L1/LV_1_AB";
 	}
+	
 	
 	
 	

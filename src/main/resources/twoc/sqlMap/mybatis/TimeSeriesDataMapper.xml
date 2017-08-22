@@ -31,8 +31,36 @@
 			  		AND OBS_DATE &gt;= DATE_FORMAT('${dBegin}', '%Y-%m-%d') 
 			  		AND OBS_DATE &lt;= DATE_FORMAT('${targetDate} 23:59:59.999', '%Y-%m-%d %H:%i:%s.%f')
  	</select>
- 	
+
+	<!--flag 값에 코드 값 외에 'NUL', 'NULL' 문자열이랑 코드테이블에 매칭 안되는 flag 값들 e.g. '39', '40'  있을 경우 null 대신 스트링 뭐라도 넣어 앞단에서 처리하던지 -->
  	<select id="selectNEPHELOData_L1" parameterType="hashmap" resultType="hashmap">
+		select 
+			DATE_FORMAT(OBS_DATE ,'%Y-%m-%d %H:%i:%s.%f') as DSTR,
+			
+			${varType} as VALUE, snum ,FgA,
+			CONCAT(nep.Fg1, ' : ', cd1.cd_name) AS F1,
+             CONCAT(nep.Fg2, ' : ', cd2.cd_name) AS F2,
+             CONCAT(nep.Fg3, ' : ', cd3.cd_name) AS F3,
+             CONCAT(nep.Fg4, ' : ', cd4.cd_name) AS F4,
+             CONCAT(nep.Fg5, ' : ', cd5.cd_name) AS F5,      
+             CONCAT(nep.Fg6, ' : ', cd6.cd_name) AS F6
+			  
+	         FROM 
+	            NEPHELO nep 
+	            		LEFT JOIN code cd1 ON nep.Fg1 = cd1.cd 
+                		LEFT JOIN code cd2 ON nep.Fg2 = cd2.cd 
+                		LEFT JOIN code cd3 ON nep.Fg3 = cd3.cd
+                		LEFT JOIN code cd4 ON nep.Fg4 = cd4.cd 
+                		LEFT JOIN code cd5 ON nep.Fg5 = cd5.cd       
+                		LEFT JOIN code cd6 ON nep.Fg6 = cd6.cd 
+	          
+	            WHERE STN_CD = 132 
+	            AND DEV_CD = 109
+			  		AND OBS_DATE &gt;= DATE_FORMAT('${dBegin}', '%Y-%m-%d') 
+			  		AND OBS_DATE &lt;= DATE_FORMAT('${targetDate} 23:59:59.999', '%Y-%m-%d %H:%i:%s.%f')
+ 	</select>
+ 	
+ 	<select id="DEPRECATED_selectNEPHELOData_L1" parameterType="hashmap" resultType="hashmap">
 		select 
 			DATE_FORMAT(OBS_DATE ,'%Y-%m-%d %H:%i:%s.%f') as DSTR,
 			<!-- 

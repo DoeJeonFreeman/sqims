@@ -136,6 +136,10 @@
 			
 	   		
 		    $("#treeWithCheckbox_<c:out value="${param.identifier}"/>").fancytree({
+		    	
+		    		//selectMode: 1, // selectMode 1 stands for single-selection mode haha
+		         selectMode: 1,   // 1:single, 2:multi, 3:multi-hier
+		    	
 		    	 //extensions: ["glyph", "wide"],
 		         //glyph: glyph_opts,
 		         //wide: {
@@ -143,10 +147,9 @@
 		         //  iconSpacing: "10px", // Adjust this if @fancy-icon-spacing != "3px"
 		         //  levelOfs: "18px"     // Adjust this if ul padding != "16px"
 		         //}, 
-		    	 connectors:true,
-		    	 checkbox: true,
+		    	 	connectors:true,
+		    	 	checkbox: true,
 		         debugLevel: 0, // 0:quiet, 1:normal, 2:debug
-		         selectMode: 2,   // 1:single, 2:multi, 3:multi-hier
 		         clickFolderMode: 2, // 1:activate, 2:expand, 3:activate and expand, 4:activate (dblclick expands)
 		         //activeVisible: true, // Make sure, active nodes are visible (expanded).
 		         source: treeData,
