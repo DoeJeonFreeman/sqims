@@ -4,8 +4,12 @@ package kr.go.nims.ccm.qms.web;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.security.Principal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.go.nims.ccm.qms.dao.TimeSeriesDataDAOService;
+import kr.go.nims.ccm.qms.domain.MannualFlaggingVO;
 import kr.go.nims.ccm.qms.domain.MostRecentStuffVO;
 import kr.go.nims.ccm.qms.domain.TimeSeriesDataVO;
 
@@ -37,11 +42,32 @@ public class TimeSeriesChartController {
 
 	
 	
-	@RequestMapping(value = "lvl_1/fxxku")
+	@RequestMapping(value = "lvl_1/update/fgm/s1")
 	@ResponseBody
-	public String fxxku(HttpServletRequest request, ModelMap model) throws Exception{
+	public String updateManualFlagStep1(String ids, String FgM, String dBegin, Principal principal, ModelMap model) throws Exception{
 		
-		log.info("fxxxxxxxxxxxxxxxk !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		//HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		//List<MannualFlaggingVO> list  = new ArrayList<MannualFlaggingVO>();
+		Date altDate = new Date();
+		
+		String[] rowIds = ids.split(",");
+		for(String eachId : rowIds){
+			MannualFlaggingVO mf = new MannualFlaggingVO();
+			mf.setSnum(Integer.parseInt(eachId));
+			mf.setFgM(FgM);
+			mf.setUserid(principal.getName());
+			mf.setEdit_date(new Timestamp(altDate.getTime()));
+		//	list.add(mf);
+//			timeSeriesDataDAOService.updateNEPHELOData_L1_MF_S1(hashmap);
+			timeSeriesDataDAOService.updateNEPHELOData_L1_MF_S1(mf);
+			log.info("[UPDATE FgM]"+mf.toString());
+			
+			
+		}
+		//hashmap.put("mannualFlaggingInfo", list);
+		
+		
+		
 		
 		return "itWorks";
 	}

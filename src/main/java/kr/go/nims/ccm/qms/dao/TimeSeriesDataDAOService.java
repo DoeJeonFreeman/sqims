@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.go.nims.ccm.qms.domain.MannualFlaggingVO;
 import kr.go.nims.ccm.qms.mybatis.TimeSeriesDataMapper;
 
 
@@ -24,16 +25,19 @@ public class TimeSeriesDataDAOService  implements TimeSeriesDataDAO{
 //	private static final SimpleDateFormat CAL_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 	
 	
-	@Override
-	public ArrayList<HashMap<String, Object>> selectCRDSData_L1(HashMap<String, String> hashmap) {
-		TimeSeriesDataMapper dataMapper = sqlSession.getMapper(TimeSeriesDataMapper.class);
-		return dataMapper.selectCRDSData_L1(hashmap);
-	}
 	
 	@Override
 	public ArrayList<HashMap<String, Object>> selectNEPHELOData_L1(HashMap<String, String> hashmap) {
 		TimeSeriesDataMapper dataMapper = sqlSession.getMapper(TimeSeriesDataMapper.class);
 		return dataMapper.selectNEPHELOData_L1(hashmap);
+	}
+	
+	@Override
+//	public void updateNEPHELOData_L1_MF_S1(HashMap<String, Object> hashmap) {
+	public void updateNEPHELOData_L1_MF_S1(MannualFlaggingVO mfvo) {
+		TimeSeriesDataMapper dataMapper = sqlSession.getMapper(TimeSeriesDataMapper.class);
+//		dataMapper.updateNEPHELOData_L1_MF_S1(hashmap);
+		dataMapper.updateNEPHELOData_L1_MF_S1(mfvo);
 	}
 	
 	@Override
@@ -48,6 +52,11 @@ public class TimeSeriesDataDAOService  implements TimeSeriesDataDAO{
 		return dataMapper.selectAPSMData_L1(hashmap);
 	}
 
+	@Override
+	public ArrayList<HashMap<String, Object>> selectCRDSData_L1(HashMap<String, String> hashmap) {
+		TimeSeriesDataMapper dataMapper = sqlSession.getMapper(TimeSeriesDataMapper.class);
+		return dataMapper.selectCRDSData_L1(hashmap);
+	}
 	
 	
 	@Override

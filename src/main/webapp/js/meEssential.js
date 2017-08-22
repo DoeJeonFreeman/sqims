@@ -8,7 +8,7 @@
 	Doe Jeon Freeman
 ---------------------------------------------*/
 
-var isVERBOSE = true ; 
+var isVERBOSE = false ; 
 
 var isStillPressedDown = false;
 

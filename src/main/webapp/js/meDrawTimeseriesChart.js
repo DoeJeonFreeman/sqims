@@ -128,71 +128,7 @@
 //		    return count;
 //		}
 //		
-	/*	
-		var options_singleSeries = {
-			    plotOptions: {
-			        series: {
-			            point: {
-			                events: {
-			                    mouseOver: function () {
-//			                        syncTooltip(this.series.chart.container, this.x - 1);
-			                        syncTooltip(this.series.chart.container, this.x);
-			                    }
-			                }
-			            }
-			        },
-			        scatter : {
-						marker : {
-							radius : 3,
-							// "circle", "square", "diamond", "triangle" and "triangle-down".
-							symbol:'circle',
-							states : {
-								hover : {
-									enabled : true,
-									lineColor : '#0c66a4'
-								}
-							}
-						},
-						states : {
-							hover : {
-								marker : {
-									enabled : false
-								}
-							}
-						}
-					}
-			    },
-			    exporting: {
-					enabled:true
-		        },
-		        
-		        credits: {
-		            enabled: false
-		        },
 
-		        tooltip : {
-					shared : false,
-					crosshairs:true,
-					formatter : function() {
-						var myDate = new Date(this.x);
-						var newDateMs = Date.UTC(myDate.getUTCFullYear(), myDate.getUTCMonth(), myDate.getUTCDate(), myDate.getUTCHours(), myDate.getUTCMinutes(), myDate.getUTCSeconds());
-						// var newDateMs = Date.UTC(myDate.getUTCFullYear(), myDate.getUTCMonth() - 1, myDate.getUTCDate(), myDate.getUTCHours(), myDate.getUTCMinutes(), myDate.getUTCSeconds());
-						// return '<b>' + this.series.name + '</b><br/>' + Highcharts .dateFormat('%e. %b', newDateMs) + ': ' + this.y;
-						return '<b>' + this.series.name + '</b><br/>' + Highcharts .dateFormat('%e. %b %H:%M:%S', newDateMs) + ' <br>' + this.y;
-					}
-			      
-				},
-				
-		        legend: {
-	                layout: 'horizontal',
-	                y: 0,
-	                borderColor: '#aaa', //grayBlue
-					borderWidth: 1,
-	                itemStyle: {
-	                	fontWeight:'normal'
-	                }
-	            }
-		};*/
 		
 		
 		
@@ -435,28 +371,7 @@
 									if(!isStillPressedDown){
 										return true;  //do zoom instead of selecting points haha
 									}
-									/**
-									var menuItemArray = this.options.exporting.buttons.contextButton.menuItems;
-									if(menuItemArray.length < 8){
-										this.options.exporting.buttons.contextButton.menuItems.push({
-											text: "Change Flag",
-											onclick: function(event){
-												var str = "";
-												if(this.getSelectedPoints().length > 0){
-//													alert(this.getSelectedPoints().length + ' points are affected')
-													str += this.getSelectedPoints().length + ' points affected.\n\n';
-												}
-												
-								                $.each(this.getSelectedPoints(), function (i, value) {
-								                	str += '['+ Highcharts.dateFormat('%Y-%m-%d %H:%M:%S',value.x) + '] pid:'+value.pid + ' / FGA:' + value.FgA +'\n';
-//								                	sysout('[value.x]'+ Highcharts.dateFormat('%Y-%m-%d %H:%M:%S',value.x))
-//								                	sysout('[value.y]'+ value.y)
-								                });
-								                alert(str);
-											}
-										});
-									}
-									*/
+
 								    // Select points
 								    Highcharts.each(this.series, function (series) {
 								        Highcharts.each(series.points, function (point) {
@@ -466,27 +381,6 @@
 								            }
 								        });
 								    });
-/**
-								    var menuItemArray = this.options.exporting.buttons.contextButton.menuItems;
-								    alert('[menuItemArray.length]' + menuItemArray.length);
-								    //console.log(menuItemArray);
-									if(menuItemArray.length < 8){
-										this.options.exporting.buttons.contextButton.menuItems.push({
-											text: "Change Flag",
-											onclick: function(event){
-												var str = "";
-												if(this.getSelectedPoints().length > 0){
-													str += this.getSelectedPoints().length + ' points affected.\n\n';
-												}
-												
-								                $.each(this.getSelectedPoints(), function (i, value) {
-								                	str += '['+ Highcharts.dateFormat('%Y-%m-%d %H:%M:%S',value.x) + '] pid:'+value.pid + ' / FGA:' + value.FgA +'\n';
-								                });
-								                alert(str);
-											}
-										});
-									}
-*/								    
 								    
 								    // Fire a custom event
 								    //Highcharts.fireEvent(this, 'selectedpoints', { points: this.getSelectedPoints() });
@@ -495,29 +389,17 @@
 								    
 								    return false; // Don't zoom
 								},
-								/*selection: function(event) {
-									// log the min and max of the primary, datetime x-axis
-									console.log(
-										Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', event.xAxis[0].min),
-										Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', event.xAxis[0].max)
-									);
-									// log the min and max of the y axis
-									console.log(event.yAxis[0].min, event.yAxis[0].max);
-								},*/
 					            selectedpoints: selectedPoints,
 //					            click: unselectByClick
 					            click : function(e){
 					                var points = this.getSelectedPoints();
-					    		    if (points.length > 0) {
-					    		        Highcharts.each(points, function (point) {
-					    		            point.select(false);
-					    		        });
-					    		    }
-//					    		    var menuItemArray = this.options.exporting.buttons.contextButton.menuItems;
-//									if(menuItemArray.length > 7){
-//										menuItemArray = menuItemArray.slice(0,7)
-//										alert(menuItemArray.length)
-//									}
+//					                console.log('>>> this.getSelectedPoinrts().length at this time :: ' + points.length);
+						    		    if (points.length > 0) {
+						    		        Highcharts.each(points, function (point) {
+						    		            point.select(false);
+//						    		            console.log(point);
+						    		        });
+						    		    }
 					            }
 					},
 					plotBorderWidth : 1,
@@ -587,7 +469,228 @@
 		                }
 		            },
 		            scale: 3,
-		            fallbackToExportServer: false
+		            fallbackToExportServer: false,
+//		            buttons: {
+//				        contextButton: {
+//				          text: '품 질검사',
+//				          menuItems: [
+//				          {
+//				            text: '수동품질검사-1단계',
+//				            onclick: function () {
+//								var str = "";
+//								var cnt_points = this.getSelectedPoints().length -1;
+//								if(this.getSelectedPoints().length > 0){
+//									//str += this.getSelectedPoints().length + ' points affected.\n\n';
+//								}else{
+//									toastr.warning('선택된 값이 없습니다.');
+//									return;
+//								}
+//								
+//				                	$.each(this.getSelectedPoints(), function (i, value) {
+//				                		//str += '['+ Highcharts.dateFormat('%Y-%m-%d %H:%M:%S',value.x) + '] pid:'+value.pid + ' / FGA:' + value.FgA +'\n';
+//				                		str += value.pid;
+//				                		str += (cnt_points == i)? '':',';
+//				                });
+//				                
+////				                	var points = this.getSelectedPoints();
+////					    		    if (points.length > 0) {
+////					    		        Highcharts.each(points, function (point) {
+////					    		            point.select(false);
+////					    		        });
+////					    		    }
+//				                	
+////				                if (window.confirm("선택한 값의 상태를 변경하겠습니까?")) { 
+//				                	
+//				                	 $('.box-header').contextMenu();
+//				                     // or $('.meDraggableItem').trigger("contextmenu");
+////				                     $('.collapse-link').contextMenu({x: 100, y: 100});
+//				                		//$('#TSCWrapper0').contextMenu({x: 100, y: 100});
+//				                	
+//				                		/////////////////////////////////////////////////////////////////////////
+//					                	/////////////////////////////////////////////////////////////////////////
+//					        			$.contextMenu({
+//					        				 selector: '.box-header',
+//					        				 trigger: 'none',
+////					        				 zIndex: 10,
+//					        				 callback:function(key, options){
+//					        				 	alert(str + '\n\n'+ key.split('_')[1]);			  
+//					        					 $.ajax({
+//							                			type: "GET",
+//							                			url: "update/fgm/s1",
+//							                			data: {ids:str,FgM:key.split('_')[1]},
+//							                			success:function(data){
+//							                				toastr.info('<b>선택한 값의 상태가 업데이트 되었습니다.</b>');
+//							                				var selectedDateObj= moment($("#meNMSCDemo").val(), 'YYYY-MM-DD'); //.toDate(); //use .toDate() to transform a moment object into a js date obj haha
+//							                				meRequest(selectedDateObj);	
+////							                				meRequest(moment('2017-05-21','YYYY-MM-DD'));	
+//							                			},
+//							                			error:function(error){
+//							                				toastr.error('<b>업데이트 중 장애가 발생하였습니다.</b>');
+//							                			}
+//							                		});  
+//					        					  
+//					        				  },
+//					        				  items: {
+//					        				    MANUAL_FLAGGING_STEP_1: {
+//					        				      name: '선택한 값들의 상태를 변경합니다.',
+//					        				      items: {
+//					        				        GOOD2GO: { /////////////////////////
+//					        				          name: '양호',
+//					        				          items:{
+//					        				        		"MF1_000": {
+//					        					          	name: '000: 자료품질 양호',
+//					        						        //type: 'radio'
+//					        						        	
+//					        					        	},			        	  
+//					        				          }
+//					        				        },
+//					        				        
+//					        				        SUSPICIOUS: { //////////////////////
+//					        				          name: '의심',
+//					        				          items: {
+//					        					        	suspicious1: {
+//					        					          	name: '장비상태 불안(자체교정, 점검)으로 자료의심',
+//					        					          	items: {
+//					        					          		MF1_147: {
+//					        								          	name: '147: 검출한계 이하값이지만 유효한 자료로 판단될 때',
+//					        									        //type: 'radio',
+//					        									        
+//					        							        	},
+//					        							        	MF1_684: {
+//					        								          	name: '684: Zero/span 체크',
+//					        									        //type: 'radio'
+//					        							        	},
+//					        							        	MF1_683: {
+//					        								          	name: '683: 검교정 시기',
+//					        									        //type: 'radio'
+//					        							        	},
+//					        							        	MF1_699: {
+//					        								          	name: '699: 장비 문제 발생',
+//					        									        //type: 'radio'
+//					        							        	},
+//					        						        	}
+//					        				            },
+//					        				            suspicious2: {
+//					        					          	name: '장비상태 정상이나 관측환경 및 기상상황 불안',
+//					        					          	items: {
+//					        					          		MF1_110: {
+//					        								          	name: '110: 태풍, 안개, 강수 이외의 특이기상상황(예: 황사, 연무) 또는 분류에 없는 사례',
+//					        									        //type: 'radio'
+//					        							        	},
+//					        							        	MF1_600: {
+//					        								          	name: '600: (온실가스) 제습장치 이상',
+//					        									        //type: 'radio'
+//					        							        	},
+//					        							        	MF1_635: {
+//					        								          	name: '635: 내부 온도 이상(정상값과 많이 차이날 경우)',
+//					        									        //type: 'radio'
+//					        							        	},
+//					        							        	MF1_640: {
+//					        								          	name: '640: 장비 내부 상대습도 40% 이상',
+//					        									        //type: 'radio'
+//					        							        	},
+//					        							        	MF1_641: {
+//					        								          	name: '641:에어로졸 필터 장착 오류',
+//					        									        //type: 'radio'
+//					        							        	},
+//					        							        	MF1_647: {
+//					        								          	name: '647: 관측소 주변의 소각 등',
+//					        									        //type: 'radio'
+//					        							        	},
+//					        							        	MF1_649: {
+//					        								          	name: '649: 일시적인 정전으로 측정기 운영에 영향',
+//					        									        //type: 'radio'
+//					        							        	},
+//					        							        	MF1_652: {
+//					        								          	name: '652: 관측소 혹은 주변 공사 등',
+//					        									        //type: 'radio'
+//					        							        	},
+//					        							        	MF1_657: {
+//					        								          	name: '657: 폭설, 폭우, 소나기 등 강한 강수',
+//					        									        //type: 'radio'
+//					        							        	},
+//					        							        	MF1_658: {
+//					        								          	name: '658: 유량이 접게 입력된 경우, 예:펌프 이상으로 기기에 실내공기 유입, 유량계 장애 등',
+//					        									        //type: 'radio'
+//					        							        	},
+//					        							        	MF1_666: {
+//					        								          	name: '666:(온실가스)인렛 필터를 교환, (반응가스 에어로졸) 필터 오염 또는 손상으로 교체',
+//					        									        //type: 'radio'
+//					        							        	},
+//					        							        	MF1_676: {
+//					        								          	name: '676: 안개(시정<1km 이하)',
+//					        									        //type: 'radio'
+//					        							        	},
+//					        							        	MF1_678: {
+//					        								          	name: '678: 태풍',
+//					        									        //type: 'radio'
+//					        							        	},
+//					        							        	MF1_685: {
+//					        								          	name: '685: (온실가스)실험실용 3차 표준가스생산/국제차순환실험 등을 위한 실험기간',
+//					        									        //type: 'radio'
+//					        							        	},
+//					        							        	MF1_782: {
+//					        								          	name: '782: 강수(비,눈)',
+//					        									        //type: 'radio'
+//					        							        	}
+//					        						        	}
+//					        				            }
+//					        				            
+//					        				          }
+//					        				        },
+//					        				        
+//					        				        MISSING: {
+//					        				          name: '결측',
+//					        				          items:{
+//					        				        	  	MF1_910: {
+//					        					          	name: '910: 장애로 장비가동 중단(수리기간 포함)',
+//					        						        //type: 'radio'
+//					        					        	},			        	  
+//					        					        	MF1_980: {
+//					        					          	name: '980: 교정 및 점검, Zero/span 체크로 장비가동 중단',
+//					        						        //type: 'radio'
+//					        					        	},			        	  
+//					        					        	MF1_999: {
+//					        					          	name: '999: 정전 등 외적요인과 원인불명의 요인으로 자료소실',
+//					        						        //type: 'radio'
+//					        					        	},			        	  
+//					        				          }
+//					        				        }
+//					        				      }
+//					        				    }
+//		
+//					        				  }
+//				        				}); // end of contextmenu declaration haha
+//					                	/////////////////////////////////////////////////////////////////////////
+//					                	/////////////////////////////////////////////////////////////////////////
+//					                	/////////////////////////////////////////////////////////////////////////
+//			                	
+//				                		
+//				                	
+////				                		$.ajax({
+////				                			type: "GET",
+////				                			url: "update/fgm/s1",
+////				                			data: {ids:str,FgM:'980'},
+////				                			success:function(data){
+////				                				toastr.info('<b>선택한 값의 상태가 업데이트 되었습니다.</b>');
+////				                				var selectedDateObj= moment($("#meNMSCDemo").val(), 'YYYY-MM-DD'); //.toDate(); //use .toDate() to transform a moment object into a js date obj haha
+////				                				meRequest(selectedDateObj);	
+//////				                				meRequest(moment('2017-05-21','YYYY-MM-DD'));	
+////				                			},
+////				                			error:function(error){
+////				                				toastr.error('<b>업데이트 중 장애가 발생하였습니다.</b>');
+////				                			}
+////				                		});
+//					        			
+////				                	} //confirm window
+//					        			
+//							}//onclick end
+//				          } 
+//				          
+//				          
+//				          ]
+//				        }
+//				      } // buttons
 		        },
 				
 				credits: {
@@ -608,9 +711,12 @@
 						str2return += this.y.toPrecision(6);
 						var autoFlag = this.points[0].point.FgA;
 						for (var i=1; i < autoFlag.length; i++) {
-							if(autoFlag.charAt(i-1) !='0') str2return += '<br/><span style="font-size:10px">[' + i +'단계] ' + this.points[0].point['F'+i] + '</span><br/>'; 
+							if(autoFlag.charAt(i-1) !='0') str2return += '<br/><span style="font-size:10px;color:#DC143C">[자동검사 ' + i +'단계] ' + this.points[0].point['F'+i] + '</span><br/>'; 
 						}
-						str2return += '<br/><span style="font-size:10px">FgA==' + this.points[0].point.FgA + '</span><br/>';
+						if(this.points[0].point.FgM !=undefined){
+							str2return += '<br/><span style="font-size:10px;color:#DC143C">[수동검사 1단계] ' + this.points[0].point.MFS1 + '</span><br/>';
+						}
+						//str2return += '<br/><span style="font-size:10px">FgA==' + this.points[0].point.FgA + '</span><br/>';
 						return str2return;
 					}
 				},
@@ -1513,709 +1619,10 @@
 		}
 		*/
 		
-		function addChart_VSNR(url, dStr, dBegin, tabIndex,detector,chartId,chartingPeriod){
-			systime('addChart_VSNR()','begin');
-			$.ajax({
-				type: 'GET',
-				dataType:'json',
-				url: url,
-				data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel=1&detector='+ detector,
-		        success: function(jsonData) {
-		        	if(jsonData.length==0){
-		        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
-		        		return;
-		        	}
-					var _vsnrChart = $('#'+chartId).highcharts(); 
-					
-					///////////////////////////////////////////////////////////////////////////////////////////////////////
-					chartingPeriod = chartingPeriod.toUpperCase();
-					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
-					///////////////////////////////////////////////////////////////////////////////////////////////////////
-						
-		        	//chart goes here
-					var _chartInstance;    				
-					_chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
-						chart : {
-//							type : 'scatter',
-							renderTo : chartId,  								
-//							defaultSeriesType : 'scatter',  //this is a 'fake' scatter plot						
-//							animation: false,
-//							events:{
-//							},
-//							plotBorderWidth : 1,
-//							plotBorderColor : '#346691', // '#346691',
-//							zoomType : 'xy',
-						},
-						title: {
-				            text: 'Visible SNR (Image Pixel-to-Pixel Non-Uniformity)',
-				            align: 'center',
-				            style:{
-				            	font:'bold 16px NanumGothic'
-				            }
-				        },
-				        subtitle: {
-				            text: '(Reference Detector: Visible Detector ' + detector + ')',
-				            align: 'center',
-				            style:{
-				            	font:'normal 13px NanumGothic'
-				            }
-				        },
-				        yAxis: {
-			    			//get rid of horizontal grid lines haha
-			    			//gridLineWidth: 0,
-			    	        tickColor: '#346691',
-			    	        tickLength: 5,
-			    	        tickWidth: 1,
-			    	        tickPosition: 'inside',
-			    	        labels: {
-			    	            align: 'right',
-			    	            x:-10,
-			    	            y:5
-			    	        },
-			    	        lineWidth:0,
-			    	
-				            title: {
-				                text: 'Value',
-			                	style : {
-			                		font:'normal 12px NanumGothic'
-			                	}	
-				            },
-				            labels:{
-					            style : {
-				            		font:'normal 11px NanumGothic'
-					            },
-					            formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-					            	return Highcharts.numberFormat(this.value, 2, '.', ',');
-					            }
-			            	}
-				            /*,plotLines:[{
-			                    value:2.7,
-			                    color: '#ff0000',
-			                    width:1,
-			                    zIndex:4,
-			                    label:{text:'outlier'}
-			                }]*/
-				            ,plotLines:[{
-			                    value:2.7,
-			                    color: '#ff0000',
-			                    width:1,
-			                    zIndex:4,
-			                    label:{text:'plotLine#01'}
-			                }]
-				        }
-				        
-					
-						
-					})); //haha
-		        	
-		        	//chart goes here
-//					console.time('asyncRender');
-					$.each (Object.keys(jsonData), function(idx,val){
-			        	var eachData = [];
-		        		var vrDataObj = jsonData[val];
-		        		if( val.substr(-1) ===  detector) {
-//		        			sysout('detNum is ' + detector + '  if( val.substr(-1) ===  detector) { return; }');
-		        			return;
-	        			}
-		        		/////////////////////////////////////////////////////////////////////
-						for (var k = 0; k < vrDataObj.length; k++) {
-							var d = /^(\d{4})\-(\d{2})\-(\d{2}) (\d{2}):(\d{2}):(\d{2})$/.exec(vrDataObj[k].D);
-							d = Date.UTC(d[1],d[2]*1-1,d[3],d[4],d[5],d[6]);
-							eachData.push([d, parseNumericVal(vrDataObj[k].V)]);
-						}
-						 _chartInstance.addSeries({
-			        			name: 'Deteoctor ' + idx*1,
-			        			data: eachData
-	        			});
-	//					 _chartInstance.series[idx*1].setData(eachData); 
-					});
-//					console.timeEnd('addChart_VSNR() rendering Chart and Data');
-		        	
-		        	
-		      		//$('#'+chartId).pleaseWait('stop');	
-		      		//charts.push(_chartInstance);
-		      		
-//		      		var idx = 't' + $("#tabs").tabs('option', 'active') + '_';
-		      		map.put(chartId, _chartInstance);
-		      		systime('addChart_VSNR()', 'end');
-				},
-				
-		        cache: false,
-		        
-			});	
-		}
 		
-		
-		function addChart_VRadiance(url,dStr, dBegin, tabIndex,detector,chartId, chartingPeriod){
-			systime('addChart_VRadiance()', 'begin');
-			$.ajax({
-				type: 'GET',
-				dataType:'json',
-//				url: '<c:url value='/' />timeseries/retrieval/L_1_A_VR',
-				url: url,
-				data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel=1&detector='+ detector,
-		        success: function(jsonData) {
-		        	if(jsonData.length==0){
-		        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
-		        		return;
-		        	}
-
-					///////////////////////////////////////////////////////////////////////////////////////////////////////
-					chartingPeriod = chartingPeriod.toUpperCase();
-					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
-					///////////////////////////////////////////////////////////////////////////////////////////////////////
-						
-		        	//chart goes here
-//					var _chartInstance = new Highcharts.Chart($.extend(true, {}, options_singleSeries,{
-						var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
-						chart : {
-//							type : 'line',
-							renderTo : chartId,  								
-//							defaultSeriesType : 'line',
-//							animation: false,
-//							plotBorderWidth : 1,
-//							plotBorderColor : '#346691', // '#346691',
-//							zoomType : 'xy',
-						},
-						title: {
-							text: 'Visible Radiance',
-							align: 'center',
-							style:{
-								font:'bold 16px NanumGothic'
-							}
-						},
-						subtitle: {
-							text: '(Detector ' + detector + ')',
-							align: 'center',
-							style:{
-								font:'normal 13px NanumGothic'
-							}
-						},
-						yAxis: {
-							//get rid of horizontal grid lines haha
-							//gridLineWidth: 0,
-							tickColor: '#346691',
-							tickLength: 5,
-							tickWidth: 1,
-							tickPosition: 'inside',
-							labels: {
-								align: 'right',
-								x:-10,
-								y:5
-							},
-							lineWidth:0,
-				    		 // max:3,
-						  	// min: -3,
-							 	title: {
-								text: 'Value',
-								style : {
-									font:'normal 12px NanumGothic'
-								}	
-							},
-							labels:{
-								style : {
-									font:'normal 11px NanumGothic'
-								},
-								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-					            	return Highcharts.numberFormat(this.value, 0, '.', ',');
-					            }
-							},	
-						},
-					 	series: [
-							{name: 'Min',	
-							  color: '#003399' ,
-							  connectNulls:false, data: []}
-							  ,{name:'Max',
-							  	color: '#f15c80' ,
-							  	connectNulls:false, data: []}
-							  ,{name:'Mean',
-							  	color: '#CCCC00' ,
-							  	connectNulls:false, data: []}
-							  ,{name:'Median',
-							  	color: '#cc66cc' ,
-							  	connectNulls:false, data: []}
-							  ,{name:'stdev',
-							  	color: '#0099CC' ,
-							  	connectNulls:false, data: []}
-							  
-					  ]
-						
-					})); //haha
-		        	
-		        	//chart goes here
-		        	
-		        	
- 		        	$.each (Object.keys(jsonData), function(idx,val){
-			        	eachData = [];
-		        		var vrDataObj = jsonData[val];
-						for (var i = 0; i < vrDataObj.length; i++) {
-							var dateString = vrDataObj[i].DSTR;
-							var arr = dateString.split(" ");
-							var dStr = arr[0].split("-");
-							var tStr = arr[1].split(":");
-							var d = Date.UTC(dStr[0],dStr[1]*1-1,dStr[2],tStr[0],tStr[1],tStr[2]);
-							eachData.push([d,parseNumericVal(vrDataObj[i].VALUE)]);
-						}
-						_chartInstance.series[idx].setData(eachData); 
-					});
-					
- 		        	//$('#'+chartId).pleaseWait('stop');	
- 		        	//charts.push(_chartInstance);
- 		        	map.put(chartId, _chartInstance);
-// 		        	sysout('checked:: ' +chartId);
- 		        	systime('addChart_VRadiance()', 'end');
-				},
-		        cache: false,
-		        
-			});	
-		}
-		
-		
-		
-		
-		function addChart_VisiblePRNU(url,dStr, dBegin, tabIndex,detector,chartId, chartingPeriod){
-			systime('addChart_VisiblePRNU()', 'begin');
-			$.ajax({
-				type: 'GET',
-				dataType:'json',
-				url: url,	
-//				url: '<c:url value='/' />timeseries/retrieval/L_1_A_VisblePRNU',
-				data:'targetDate=' + dStr +'&dBegin=' + dBegin +  '&channel=1&detector='+ detector,
-		        success: function(jsonData) {
-		        	if(jsonData.length==0){
-		        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
-		        		return;
-		        	}
-
-					///////////////////////////////////////////////////////////////////////////////////////////////////////
-					chartingPeriod = chartingPeriod.toUpperCase();
-					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
-					///////////////////////////////////////////////////////////////////////////////////////////////////////
-						
-		        	
-		        	//chart goes here
-					var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
-						chart : {
-//							type : 'scatter',
-							renderTo : chartId,  								
-//							defaultSeriesType : 'line',
-//							animation: false,
-//							plotBorderWidth : 1,
-//							plotBorderColor : '#346691', // '#346691',
-//							zoomType : 'xy',
-						},
-						title: {
-							text: 'Visible PRNU',
-							align: 'center',
-							style:{
-								font:'bold 16px NanumGothic'
-							}
-						},
-						subtitle: {
-							text: '(Detector ' + detector + ')',
-							align: 'center',
-							style:{
-								font:'normal 13px NanumGothic'
-							}
-						},
-						yAxis: {
-							//get rid of horizontal grid lines haha
-							//gridLineWidth: 0,
-							tickColor: '#346691',
-							tickLength: 5,
-							tickWidth: 1,
-							tickPosition: 'inside',
-							labels: {
-								align: 'right',
-								x:-10,
-								y:5
-							},
-							lineWidth:0,
-				    		 // max:3,
-						  	// min: -3,
-							 	title: {
-								text: 'Value',
-								style : {
-									font:'normal 12px NanumGothic'
-								}	
-							},
-							labels:{
-								style : {
-									font:'normal 11px NanumGothic'
-								},
-								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-					            	return Highcharts.numberFormat(this.value, 2, '.', ',');
-					            }
-							},	
-						}
-				
-					})); //haha
-		        	
-		        	//chart goes here
-		        	
- 		        	$.each (Object.keys(jsonData), function(idx,val){
-			        	eachData = [];
-		        		var vrDataObj = jsonData[val];
-						for (var i = 0; i < vrDataObj.length; i++) {
-							var d = /^(\d{4})\-(\d{2})\-(\d{2}) (\d{2}):(\d{2}):(\d{2})$/.exec(vrDataObj[i].DSTR);
-							d = Date.UTC(d[1],d[2]*1-1,d[3],d[4],d[5],d[6]);
-							eachData.push([d,parseNumericVal(vrDataObj[i].VALUE)]);
-						}
-						//_chartInstance.series[idx].setData(eachData); 
-						 /* 
-						 */
-						 _chartInstance.addSeries({
-			        			name: 'Detector ' + detector,
-			        			data: eachData
-	        			}); 
-					});
-					
- 		        	//$('#'+chartId).pleaseWait('stop');	
- 		        	//charts.push(_chartInstance);
- 		        	map.put(chartId, _chartInstance);
- 		        	systime('addChart_VisiblePRNU()', 'end');
-				},
-		        cache: false,
-		        
-			});	
-		}
-		
-		
-		
-		function addChart_IRRS(url, dStr, dBegin, tabIndex,detector,chartId, chartingPeriod){
-			systime('addChart_IRRS()', 'begin');
-			$.ajax({
-				type: 'GET',
-				dataType:'json',
-			//	url: '<c:url value='/' />timeseries/retrieval/L_1_A_IRRS',
-				url:url,
-				data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel=1&detector='+ detector,
-		        success: function(jsonData) {
-		        	if(jsonData.length==0){
-		        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
-		        		return;
-		        	}
-
-					///////////////////////////////////////////////////////////////////////////////////////////////////////
-					chartingPeriod = chartingPeriod.toUpperCase();
-					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
-					///////////////////////////////////////////////////////////////////////////////////////////////////////
-							        	
-		        	//chart goes here
-					var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
-						chart : {
-//							type : 'line',
-							renderTo : chartId,  								
-//							defaultSeriesType : 'line',
-//							animation: false,
-//							plotBorderWidth : 1,
-//							plotBorderColor : '#346691', // '#346691',
-//							zoomType : 'xy',
-						},
-						title: {
-							text: 'IR Radiance',
-							align: 'center',
-							style:{
-								font:'bold 16px NanumGothic'
-							}
-						},
-						subtitle: {
-							text: '(Detector ' + detector + ')',
-							align: 'center',
-							style:{
-								font:'normal 13px NanumGothic'
-							}
-						},
-						yAxis: {
-							//get rid of horizontal grid lines haha
-							//gridLineWidth: 0,
-							tickColor: '#346691',
-							tickLength: 5,
-							tickWidth: 1,
-							tickPosition: 'inside',
-							labels: {
-								align: 'right',
-								x:-10,
-								y:5
-							},
-							lineWidth:0,
-				    		 // max:3,
-						  	// min: -3,
-							 	title: {
-								text: 'Value',
-								style : {
-									font:'normal 12px NanumGothic'
-								}	
-							},
-							labels:{
-								style : {
-									font:'normal 11px NanumGothic'
-								},
-								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-					            	return Highcharts.numberFormat(this.value, 0, '.', ',');
-					            }
-							},	
-						}
-					 	
-					})); //haha
-		        	
-		        	//chart goes here
-		        	
- 		        	$.each (Object.keys(jsonData), function(idx,val){
-			        	eachData = [];
-		        		var vrDataObj = jsonData[val];
-						for (var i = 0; i < vrDataObj.length; i++) {
-							var d = /^(\d{4})\-(\d{2})\-(\d{2}) (\d{2}):(\d{2}):(\d{2})$/.exec(vrDataObj[i].DSTR);
-							d = Date.UTC(d[1],d[2]*1-1,d[3],d[4],d[5],d[6]);
-							eachData.push([d,parseNumericVal(vrDataObj[i].VALUE)]);
-						}
-						//_chartInstance.series[idx].setData(eachData); 
-						 /* 
-						 */
-						 _chartInstance.addSeries({
-			        			name: vrDataObj[0].TYPENAME,
-			        			data: eachData
-	        			}); 
-					});
-					
- 		        	//$('#'+chartId).pleaseWait('stop');	
- 		        	//charts.push(_chartInstance);
- 		        	map.put(chartId, _chartInstance);
- 		        	systime('addChart_IRRS()', 'end');
-				},
-		        cache: false,
-		        
-			});	
-		}
-		
-		
-		
-		function addChart_IR_NEDT(url, dStr, dBegin, tabIndex,detector,chartId, chartingPeriod){
-			systime('addChart_IR_NEDT()', 'begin');
-			$.ajax({
-				type: 'GET',
-				dataType:'json',
-//				url: '<c:url value='/' />timeseries/retrieval/L_1_A_IRNEDT',
-				url: url,
-				data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel=1&detector='+ detector,
-		        success: function(jsonData) {
-		        	if(jsonData.length==0){
-		        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
-		        		return;
-		        	}
-
-					///////////////////////////////////////////////////////////////////////////////////////////////////////
-					chartingPeriod = chartingPeriod.toUpperCase();
-					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
-					///////////////////////////////////////////////////////////////////////////////////////////////////////
-					
-		        	//chart goes here
-					var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
-						chart : {
-//							type : 'line',
-							renderTo : chartId,  								
-//							defaultSeriesType : 'line',
-//							animation: false,
-//							plotBorderWidth : 1,
-//							plotBorderColor : '#346691', // '#346691',
-//							zoomType : 'xy',
-						},
-						title: {
-							text: 'IR NEDT (220K)',
-							align: 'center',
-							style:{
-								font:'bold 16px NanumGothic'
-							}
-						},
-						subtitle: {
-							text: '(Detector ' + detector + ')',
-							align: 'center',
-							style:{
-								font:'normal 13px NanumGothic'
-							}
-						},
-						yAxis: {
-							//get rid of horizontal grid lines haha
-							//gridLineWidth: 0,
-							tickColor: '#346691',
-							tickLength: 5,
-							tickWidth: 1,
-							tickPosition: 'inside',
-							labels: {
-								align: 'right',
-								x:-10,
-								y:5
-							},
-							lineWidth:0,
-				    		 // max:3,
-						  	// min: -3,
-							 	title: {
-								text: 'Value',
-								style : {
-									font:'normal 12px NanumGothic'
-								}	
-							},
-							labels:{
-								style : {
-									font:'normal 11px NanumGothic'
-								},
-								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-					            	return Highcharts.numberFormat(this.value, 0, '.', ',');
-					            }
-							}	
-						}
-					 
-					})); //haha
-		        	
-		        	//chart goes here
-		        	
- 		        	$.each (Object.keys(jsonData), function(idx,val){
-			        	eachData = [];
-		        		var vrDataObj = jsonData[val];
-						for (var i = 0; i < vrDataObj.length; i++) {
-							var d = /^(\d{4})\-(\d{2})\-(\d{2}) (\d{2}):(\d{2}):(\d{2})$/.exec(vrDataObj[i].DSTR);
-							d = Date.UTC(d[1],d[2]*1-1,d[3],d[4],d[5],d[6]);
-							eachData.push([d,parseNumericVal(vrDataObj[i].VALUE)]);
-						}
-						//_chartInstance.series[idx].setData(eachData); 
-						 /* 
-						 */
-						 _chartInstance.addSeries({
-			        			name: 'Channel ' + vrDataObj[0].CHANNEL,
-			        			data: eachData
-	        			}); 
-					});
-					
- 		        	//$('#'+chartId).pleaseWait('stop');	
- 		        	//charts.push(_chartInstance);
- 		        	map.put(chartId, _chartInstance);
- 		        	/*
- 		        	sysout('===>//charts.push : ' + chartId + ' instance reference..');
-		        	sysout(_chartInstance);
-		        	sysout('charts.length is ');
-		        	sysout(charts.length);*/
- 		        	systime('addChart_IR_NEDT()', 'end');
-				},
-		        cache: false,
-			});	
-		}
-		
-		
-		
-		
-		
-		function addChart_IR_PRNU(url,dStr, dBegin, tabIndex,detector,chartId, chartingPeriod){
-			systime('addChart_IR_PRNU()', 'begin');
-			$.ajax({
-				type: 'GET',
-				dataType:'json',
-				//url: '<c:url value='/' />timeseries/retrieval/L_1_A_IRPRNU',
-				url: url,
-				data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel=1&detector='+ detector,
-		        success: function(jsonData) {
-		        	if(jsonData.length==0){
-		        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
-		        		return;
-		        	}
-
-					///////////////////////////////////////////////////////////////////////////////////////////////////////
-					chartingPeriod = chartingPeriod.toUpperCase();
-					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
-					///////////////////////////////////////////////////////////////////////////////////////////////////////
-					
-		        	//chart goes here
-					var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
-						chart : {
-//							type : 'scatter',
-							renderTo : chartId,  								
-//							defaultSeriesType : 'line',
-//							animation: false,
-//							plotBorderWidth : 1,
-//							plotBorderColor : '#346691', // '#346691',
-//							zoomType : 'xy',
-						},
-						title: {
-							text: 'IR PRNU',
-							align: 'center',
-							style:{
-								font:'bold 16px NanumGothic'
-							}
-						},
-						subtitle: {
-							text: '(Detector ' + detector + ')',
-							align: 'center',
-							style:{
-								font:'normal 13px NanumGothic'
-							}
-						},
-						yAxis: {
-							//get rid of horizontal grid lines haha
-							//gridLineWidth: 0,
-							tickColor: '#346691',
-							tickLength: 5,
-							tickWidth: 1,
-							tickPosition: 'inside',
-							labels: {
-								align: 'right',
-								x:-10,
-								y:5
-							},
-							lineWidth:0,
-				    		 // max:3,
-						  	// min: -3,
-							 	title: {
-								text: 'Value',
-								style : {
-									font:'normal 12px NanumGothic'
-								}	
-							},
-							labels:{
-								style : {
-									font:'normal 11px NanumGothic'
-								},
-								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-					            	return Highcharts.numberFormat(this.value, 4, '.', ',');
-					            }
-							}	
-						}
-					    ,series: [
-									{name:'IR PRNU',
-									     color:'#7cb5ec',
-									     connectNulls:false, data: []}
-						 ]
-					})); //haha
-		        	
-		        	//chart goes here
-		        	
- 		        	$.each (Object.keys(jsonData), function(idx,val){
-			        	eachData = [];
-		        		var vrDataObj = jsonData[val];
-						for (var i = 0; i < vrDataObj.length; i++) {
-							var d = /^(\d{4})\-(\d{2})\-(\d{2}) (\d{2}):(\d{2}):(\d{2})$/.exec(vrDataObj[i].DSTR);
-							d = Date.UTC(d[1],d[2]*1-1,d[3],d[4],d[5],d[6]);
-							eachData.push([d,parseNumericVal(vrDataObj[i].VALUE)]);
-						}
-						
-						_chartInstance.series[idx*1].setData(eachData); 
-						
-						/* _chartInstance.addSeries({
-			        			name: vrDataObj[0].TYPENAME,
-			        			data: eachData
-	        			}); */
-					});
-					
- 		        	//$('#'+chartId).pleaseWait('stop');	
- 		        	//charts.push(_chartInstance);
- 		        	map.put(chartId, _chartInstance);
- 		        	systime('addChart_IR_PRNU()', 'end');
-				},
-		        cache: false,
-		        
-			});	
-		}
+	
 		
 
-		
 		
 		
 		
@@ -2443,111 +1850,6 @@
 						          ]*/
 					})); //haha
 					
-					var chartObj = $('#'+chartId).highcharts();
-				
-					sysout('////////////////////////////////////////////////////////////////////////////////////////////////////')
-					sysout(_chartInstance);
-					sysout(chartObj);
-					sysout('////////////////////////////////////////////////////////////////////////////////////////////////////')
-					
-	/**				
-//					var menuItemArray = _chartInstance.options.exporting.buttons.contextButton.menuItems;
-					var menuItemArray = chartObj.options.exporting.buttons.contextButton.menuItems;
-					if(menuItemArray.length < 8){
-//						_chartInstance.options.exporting.buttons.contextButton.menuItems.push({
-						chartObj.options.exporting.buttons.contextButton.menuItems.push({
-							separator:true 
-						});
-//						_chartInstance.options.exporting.buttons.contextButton.menuItems.push({
-						chartObj.options.exporting.buttons.contextButton.menuItems.push({
-							text: '수동 품질검사 (1단계)',
-							onclick: function () {
-
-								var str = "";
-//								if(_chartInstance.getSelectedPoints().length > 0){
-								if(chartObj.getSelectedPoints().length > 0){
-//									str += _chartInstance.getSelectedPoints().length + ' points affected.\n\n';
-									str += chartObj.getSelectedPoints().length + ' points affected.\n\n';
-								}else{
-									alert('선택된 값이 없습니다.');
-									return;
-								}
-								
-//				                $.each(_chartInstance.getSelectedPoints(), function (i, value) {
-				                	$.each(chartObj.getSelectedPoints(), function (i, value) {
-				                		str += '['+ Highcharts.dateFormat('%Y-%m-%d %H:%M:%S',value.x) + '] pid:'+value.pid + ' / FGA:' + value.FgA +'\n';
-				                });
-				                
-				                if (window.confirm("선택한 값의 상태를 변경하겠습니까?")) { 
-					                	alert(str);
-				                		$.ajax({
-				                			type: "GET",
-				                			url: "fxxku",
-				                			data: {FgM:'990'},
-				                			success:function(data){
-				                				toastr.info('<b>선택한 값의 상태가 업데이트 되었습니다.</b>');
-				                				var selectedDateObj= moment($("#meNMSCDemo").val(), 'YYYY-MM-DD'); //.toDate(); //use .toDate() to transform a moment object into a js date obj haha
-				                				meRequest(selectedDateObj);	
-//				                				meRequest(moment('2017-05-21','YYYY-MM-DD'));	
-				                			},
-				                			error:function(error){
-				                				toastr.error('<b>선택한 값의 상태가 업데이트 되었습니다.</b>');
-				                			}
-				                		});
-				                	}
-				                
-							}
-						});
-						
-						_chartInstance.options.exporting.buttons.contextButton.menuItems.push({
-							text: '수동 품질검사 (2단계)',
-							onclick: function () {
-								var str = "";
-								if(_chartInstance.getSelectedPoints().length > 0){
-									str += _chartInstance.getSelectedPoints().length + ' points affected.\n\n';
-								}else{
-									alert('선택된 값이 없습니다.');
-									return;
-								}
-								
-								$.each(_chartInstance.getSelectedPoints(), function (i, value) {
-									str += '['+ Highcharts.dateFormat('%Y-%m-%d %H:%M:%S',value.x) + '] pid:'+value.pid + ' / FGA:' + value.FgA +'\n';
-								});
-								
-								if (window.confirm("선택한 값의 상태를 변경하겠습니까?")) { 
-									alert(str);
-									//window.open("exit.html", "Thanks for Visiting!");
-								}
-								
-							}
-						});
-					}
-	*/				
-					
-					
-					/**
-					 * 				
-				 				    var menuItemArray = this.options.exporting.buttons.contextButton.menuItems;
-								    alert('[menuItemArray.length]' + menuItemArray.length);
-								    //console.log(menuItemArray);
-									if(menuItemArray.length < 8){
-										this.options.exporting.buttons.contextButton.menuItems.push({
-											text: "Change Flag",
-											onclick: function(event){
-												var str = "";
-												if(this.getSelectedPoints().length > 0){
-													str += this.getSelectedPoints().length + ' points affected.\n\n';
-												}
-												
-								                $.each(this.getSelectedPoints(), function (i, value) {
-								                	str += '['+ Highcharts.dateFormat('%Y-%m-%d %H:%M:%S',value.x) + '] pid:'+value.pid + ' / FGA:' + value.FgA +'\n';
-								                });
-								                alert(str);
-											}
-										});
-									}
-					 * */
-					
 					
 					//chart goes here
 					
@@ -2562,16 +1864,33 @@
 							d = Date.UTC(d[1],d[2]*1-1,d[3],d[4],d[5],d[6]);
 //							var colour = (vrDataObj[i].FgA.indexOf('1') > -1)? ((vrDataObj[i].FgA.indexOf('2') > -1)? '#dc143c' : '#fd7a16') : '#3e93ef'  //오류 의심 정상
 //							eachData.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum, color:colour});
-							if(vrDataObj[i].FgA.indexOf('2') > -1){ //오류 필드
-								eachData_error.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum 		    ,F1:vrDataObj[i].F1, F2:vrDataObj[i].F2, F3:vrDataObj[i].F3, F4:vrDataObj[i].F4, F5:vrDataObj[i].F5, F6:vrDataObj[i].F6});
-							}else {
-								if(vrDataObj[i].FgA.indexOf('1') > -1){ // 의심 필드 
-									eachData_suspicious.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum    ,F1:vrDataObj[i].F1, F2:vrDataObj[i].F2, F3:vrDataObj[i].F3, F4:vrDataObj[i].F4, F5:vrDataObj[i].F5, F6:vrDataObj[i].F6});
-								}else{ // 정상 필드 
-									eachData.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum  				,F1:vrDataObj[i].F1, F2:vrDataObj[i].F2, F3:vrDataObj[i].F3, F4:vrDataObj[i].F4, F5:vrDataObj[i].F5, F6:vrDataObj[i].F6});
+							
+							
+							if(vrDataObj[i].FgM!=undefined){
+								//양호 (수동1단계)
+								if(vrDataObj[i].FgM == '000'){
+									eachData.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum  				,F1:vrDataObj[i].F1, F2:vrDataObj[i].F2, F3:vrDataObj[i].F3, F4:vrDataObj[i].F4, F5:vrDataObj[i].F5, F6:vrDataObj[i].F6, FgM:vrDataObj[i].FgM, MFS1:vrDataObj[i].MFS1 });
+								//의심 (수동1단계) 	
+								}else if(vrDataObj[i].FgM.charAt(0) != '9'){
+									eachData_suspicious.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum    ,F1:vrDataObj[i].F1, F2:vrDataObj[i].F2, F3:vrDataObj[i].F3, F4:vrDataObj[i].F4, F5:vrDataObj[i].F5, F6:vrDataObj[i].F6, FgM:vrDataObj[i].FgM, MFS1:vrDataObj[i].MFS1 });
+								//결측 (수동1단계)		
+								}else{
+									eachData_error.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum 		    ,F1:vrDataObj[i].F1, F2:vrDataObj[i].F2, F3:vrDataObj[i].F3, F4:vrDataObj[i].F4, F5:vrDataObj[i].F5, F6:vrDataObj[i].F6, FgM:vrDataObj[i].FgM, MFS1:vrDataObj[i].MFS1 });
 								}
+							}else{
+								
+								if(vrDataObj[i].FgA.indexOf('2') > -1){ //오류 필드
+									eachData_error.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum 		    ,F1:vrDataObj[i].F1, F2:vrDataObj[i].F2, F3:vrDataObj[i].F3, F4:vrDataObj[i].F4, F5:vrDataObj[i].F5, F6:vrDataObj[i].F6, FgM:vrDataObj[i].FgM, MFS1:vrDataObj[i].MFS1 });
+								}else {
+									if(vrDataObj[i].FgA.indexOf('1') > -1){ // 의심 필드 
+										eachData_suspicious.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum    ,F1:vrDataObj[i].F1, F2:vrDataObj[i].F2, F3:vrDataObj[i].F3, F4:vrDataObj[i].F4, F5:vrDataObj[i].F5, F6:vrDataObj[i].F6, FgM:vrDataObj[i].FgM, MFS1:vrDataObj[i].MFS1 });
+									}else{ // 정상 필드 
+										eachData.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum  				,F1:vrDataObj[i].F1, F2:vrDataObj[i].F2, F3:vrDataObj[i].F3, F4:vrDataObj[i].F4, F5:vrDataObj[i].F5, F6:vrDataObj[i].F6, FgM:vrDataObj[i].FgM, MFS1:vrDataObj[i].MFS1 });
+									}
+								}
+								//							eachData.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum});
 							}
-//							eachData.push({x: d, y:parseNumericVal(vrDataObj[i].VALUE), FgA: vrDataObj[i].FgA, pid:vrDataObj[i].snum});
+							
 						}
 						
 //						_chartInstance.series[idx*1].setData(eachData); 
@@ -2596,7 +1915,7 @@
 //						if(eachData_error.length != 0 ){
 							_chartInstance.addSeries({
 								userHTML:true,
-								name: whichVar + ' 오류',
+								name: whichVar + ' 오류/결측',
 								data: eachData_error,
 								color : '#dc143c'
 								,turboThreshold:0 
